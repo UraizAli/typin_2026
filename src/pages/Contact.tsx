@@ -24,16 +24,33 @@ export default function Contact() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  const [error, setError] = useState("");
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+    setError("");
     
-    // Simulate form submission
-    setTimeout(() => {
-      setSubmitted(true);
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...formData, source: "Contact Form" }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setSubmitted(true);
+        setFormData({ name: "", email: "", company: "", phone: "", message: "" });
+      } else {
+        setError(data.error || "Something went wrong. Please try again.");
+      }
+    } catch {
+      setError("Unable to connect. Please try again later.");
+    } finally {
       setLoading(false);
-      setFormData({ name: "", email: "", company: "", phone: "", message: "" });
-    }, 1500);
+    }
   };
 
   if (submitted) {
@@ -243,6 +260,12 @@ export default function Contact() {
                         placeholder="Tell us about your automation needs..."
                       />
                     </div>
+
+                    {error && (
+                      <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-600">
+                        {error}
+                      </div>
+                    )}
 
                     <button
                       type="submit"
