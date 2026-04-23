@@ -1,18 +1,38 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { motion, useScroll, AnimatePresence } from "framer-motion";
 import { Menu, X, ChevronDown } from "lucide-react";
 
 const navItems = [
-  { label: "About", href: "#about" },
-  { label: "Services", href: "#services" },
-  { label: "Case Studies", href: "#case-studies" },
-  { label: "Process", href: "#delivery" },
-  { label: "Insights", href: "#insights" },
+  { label: "Home", path: "/" },
+  { label: "Services", path: "/services" },
+  { 
+    label: "About", 
+    path: "/about",
+    dropdown: [
+      { label: "About Us", path: "/about" },
+      { label: "Our Story", path: "/about-us" },
+      { label: "Case Studies", path: "/case-studies" },
+    ]
+  },
+  { 
+    label: "Resources", 
+    path: "#",
+    dropdown: [
+      { label: "Blog", path: "/blog" },
+      { label: "FAQ", path: "/faq" },
+      { label: "ROI Calculator", path: "/roi-calculator" },
+      { label: "Service Selector", path: "/service-selector" },
+      { label: "Automation Audit", path: "/automation-audit" },
+      { label: "Newsletter", path: "/newsletter" },
+    ]
+  },
 ];
 
 export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const { scrollYProgress } = useScroll();
 
   useEffect(() => {
@@ -28,13 +48,13 @@ export function Navbar() {
           initial={{ opacity: 0, y: -40, scale: 0.95 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
-          className={`relative flex w-full max-w-[980px] items-center overflow-hidden rounded-full border px-2.5 py-1.5 transition-all duration-500 lg:px-3 lg:py-2 ${
+          className={`relative flex w-full max-w-[980px] items-center rounded-full border px-2.5 py-1.5 transition-all duration-500 lg:px-3 lg:py-2 ${
             scrolled
               ? "border-gray-200/60 bg-white/80 shadow-[0_4px_40px_rgba(0,0,0,0.06),0_0_0_1px_rgba(0,0,0,0.02)] backdrop-blur-2xl"
               : "border-white/30 bg-white/40 shadow-[0_4px_30px_rgba(0,0,0,0.03)] backdrop-blur-xl"
           }`}
         >
-          <a href="#top" className="group flex shrink-0 items-center pl-3">
+          <Link to="/" className="group flex shrink-0 items-center pl-3">
             <span className="inline-flex items-center rounded-full bg-[#111827]/92 px-4 py-2 shadow-[0_10px_32px_rgba(17,24,39,0.22)] ring-1 ring-white/10 backdrop-blur-md transition-all duration-300 group-hover:-translate-y-0.5 group-hover:shadow-[0_16px_40px_rgba(22,163,74,0.2)]">
               <span className="text-[23px] font-black tracking-[-0.05em] text-white lg:text-[26px]">
                 T
@@ -47,23 +67,61 @@ export function Navbar() {
               </span>
               <span className="ml-2 h-2 w-2 rounded-full bg-[#4ADE80] shadow-[0_0_16px_rgba(74,222,128,0.75)]" />
             </span>
-          </a>
+          </Link>
 
           <div className="hidden flex-1 items-center justify-center gap-1 px-4 lg:flex">
             {navItems.map((item) => (
-              <a
+              <div
                 key={item.label}
-                href={item.href}
-                className="relative shrink-0 whitespace-nowrap rounded-full px-4 py-2 text-[13px] font-medium text-[#4B5563] transition-all duration-300 hover:-translate-y-1 hover:bg-[#34D399] hover:text-[#111827] hover:shadow-[0_8px_50px_rgba(74,222,128,0.5)]"
+                className="relative"
+                onMouseEnter={() => item.dropdown && setOpenDropdown(item.label)}
+                onMouseLeave={() => setOpenDropdown(null)}
               >
-                {item.label}
-              </a>
+                {item.dropdown ? (
+                  <>
+                    <button
+                      className="relative flex shrink-0 items-center gap-1 whitespace-nowrap rounded-full px-4 py-2 text-[13px] font-medium text-[#4B5563] transition-all duration-300 hover:-translate-y-1 hover:bg-[#34D399] hover:text-[#111827] hover:shadow-[0_8px_50px_rgba(74,222,128,0.5)]"
+                    >
+                      {item.label}
+                      <ChevronDown className="h-3 w-3" />
+                    </button>
+                    <AnimatePresence>
+                      {openDropdown === item.label && (
+                        <motion.div
+                          initial={{ opacity: 0, y: 10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: 10 }}
+                          transition={{ duration: 0.2 }}
+                          className="absolute left-0 top-[calc(100%+8px)] z-[100] min-w-[200px] rounded-2xl border border-[#E5E7EB] bg-white p-2 shadow-[0_20px_60px_rgba(0,0,0,0.25)]"
+                        >
+                          {item.dropdown.map((subItem) => (
+                            <Link
+                              key={subItem.label}
+                              to={subItem.path}
+                              className="block rounded-xl px-4 py-2.5 text-[13px] font-medium text-[#4B5563] transition-all duration-200 hover:bg-[#F0FDF4] hover:text-[#16A34A]"
+                            >
+                              {subItem.label}
+                            </Link>
+                          ))}
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </>
+                ) : (
+                  <Link
+                    to={item.path}
+                    className="relative shrink-0 whitespace-nowrap rounded-full px-4 py-2 text-[13px] font-medium text-[#4B5563] transition-all duration-300 hover:-translate-y-1 hover:bg-[#34D399] hover:text-[#111827] hover:shadow-[0_8px_50px_rgba(74,222,128,0.5)]"
+                  >
+                    {item.label}
+                  </Link>
+                )}
+              </div>
             ))}
           </div>
 
           <div className="hidden shrink-0 pr-1 lg:flex">
             <a
-              href="#contact"
+              href="/contact"
               className="group inline-flex shrink-0 items-center gap-2 whitespace-nowrap rounded-full bg-[#4ADE80] px-8 py-4 text-[15px] font-bold text-[#111827] shadow-[0_4px_30px_rgba(74,222,128,0.35)] transition-all duration-300 hover:-translate-y-1 hover:bg-[#34D399] hover:shadow-[0_8px_50px_rgba(74,222,128,0.5)]"
             >
               Book a Call
@@ -106,8 +164,8 @@ export function Navbar() {
                 <X className="h-6 w-6" />
               </button>
 
-              <a
-                href="#top"
+              <Link
+                to="/"
                 className="mb-6 flex flex-col items-center leading-none"
                 onClick={() => setMobileOpen(false)}
               >
@@ -123,20 +181,42 @@ export function Navbar() {
                   </span>
                   <span className="ml-2 h-2.5 w-2.5 rounded-full bg-[#4ADE80] shadow-[0_0_18px_rgba(74,222,128,0.75)]" />
                 </span>
-              </a>
+              </Link>
 
               {navItems.map((item, i) => (
-                <motion.a
+                <motion.div
                   key={item.label}
-                  href={item.href}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.08 + i * 0.05 }}
-                  className="text-xl font-semibold text-[#374151] transition-colors hover:text-[#16A34A]"
-                  onClick={() => setMobileOpen(false)}
+                  className="flex flex-col items-center gap-2"
                 >
-                  {item.label}
-                </motion.a>
+                  {item.dropdown ? (
+                    <>
+                      <span className="text-xl font-semibold text-[#374151]">
+                        {item.label}
+                      </span>
+                      {item.dropdown.map((subItem) => (
+                        <Link
+                          key={subItem.label}
+                          to={subItem.path}
+                          className="text-base font-medium text-[#6B7280] transition-colors hover:text-[#16A34A]"
+                          onClick={() => setMobileOpen(false)}
+                        >
+                          {subItem.label}
+                        </Link>
+                      ))}
+                    </>
+                  ) : (
+                    <Link
+                      to={item.path}
+                      className="text-xl font-semibold text-[#374151] transition-colors hover:text-[#16A34A]"
+                      onClick={() => setMobileOpen(false)}
+                    >
+                      {item.label}
+                    </Link>
+                  )}
+                </motion.div>
               ))}
 
               <motion.a
