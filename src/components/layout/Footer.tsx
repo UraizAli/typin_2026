@@ -1,15 +1,23 @@
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import { staggerContainer, staggerItem } from "../../lib/animations";
 import { AnimatedSection } from "../ui/AnimatedSection";
 import { AppLink } from "../ui/AppLink";
 
 const footerLinks = [
-  { label: "About Us", href: "#about" },
-  { label: "Services", href: "#services" },
-  { label: "Case Studies", href: "#case-studies" },
-  { label: "How It Works", href: "#delivery" },
-  { label: "Insights", href: "#insights" },
-  { label: "Careers", href: "#" },
+  { label: "Services", path: "/services" },
+  { label: "Pricing", path: "/pricing" },
+  { label: "About Us", path: "/about-us" },
+  { label: "FAQ", path: "/faq" },
+  { label: "Contact", path: "/contact" },
+  { label: "Case Studies", path: "/case-studies" },
+];
+
+const toolsLinks = [
+  { label: "ROI Calculator", path: "/roi-calculator" },
+  { label: "Service Selector", path: "/service-selector" },
+  { label: "Automation Audit", path: "/automation-audit" },
+  { label: "Newsletter", path: "/newsletter" },
 ];
 
 export function Footer() {
@@ -23,14 +31,14 @@ export function Footer() {
         className="mx-auto grid max-w-7xl gap-12 md:grid-cols-2 lg:grid-cols-4"
       >
         <motion.div variants={staggerItem} className="space-y-6">
-          <AppLink href="#top" className="flex shrink-0 flex-col leading-none">
+          <Link to="/" className="flex shrink-0 flex-col leading-none">
             <span className="font-['Inspiration',cursive] text-[34px] text-white">
               Typin
             </span>
             <span className="-mt-1.5 text-[10px] font-semibold uppercase tracking-[0.32em] text-[#4ADE80]">
               AI Automation
             </span>
-          </AppLink>
+          </Link>
           <p className="max-w-[300px] text-[15px] leading-7 text-[#9CA3AF]">
             We help SMEs replace manual busywork with AI-powered automation so your
             team can do more with fewer people and zero wasted hours.
@@ -43,13 +51,23 @@ export function Footer() {
           </h3>
           <div className="flex flex-col gap-3">
             {footerLinks.map((link) => (
-              <AppLink
-                key={link.label}
-                href={link.href}
-                className="text-[15px] text-[#9CA3AF] transition-colors duration-200 hover:text-[#4ADE80]"
-              >
-                {link.label}
-              </AppLink>
+              link.path.startsWith("/") ? (
+                <Link
+                  key={link.label}
+                  to={link.path}
+                  className="text-[15px] text-[#9CA3AF] transition-colors duration-200 hover:text-[#4ADE80]"
+                >
+                  {link.label}
+                </Link>
+              ) : (
+                <a
+                  key={link.label}
+                  href={link.path}
+                  className="text-[15px] text-[#9CA3AF] transition-colors duration-200 hover:text-[#4ADE80]"
+                >
+                  {link.label}
+                </a>
+              )
             ))}
           </div>
         </motion.div>
