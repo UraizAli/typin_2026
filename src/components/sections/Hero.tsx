@@ -126,9 +126,10 @@ export function Hero() {
           </a>
           <a
             href="#about"
-            className="inline-flex items-center gap-2 rounded-full border-2 border-white/15 bg-white/[0.06] px-8 py-4 text-[15px] font-semibold text-white backdrop-blur-sm transition-all duration-300 hover:border-white/30 hover:bg-white/[0.12]"
+            className="group inline-flex items-center gap-2 rounded-full bg-white/10 px-8 py-4 text-[15px] font-bold text-white shadow-[0_4px_24px_rgba(15,23,42,0.18)] backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:bg-[#34D399]/18 hover:shadow-[0_8px_40px_rgba(74,222,128,0.22)]"
           >
             See How It Works
+            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
           </a>
         </motion.div>
 
