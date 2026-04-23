@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { CheckCircle, AlertCircle } from "lucide-react";
+import { CheckCircle, AlertCircle, ClipboardCheck } from "lucide-react";
 import { Navbar } from "../components/layout/Navbar";
 import { Footer } from "../components/layout/Footer";
-import { SectionHeading } from "../components/ui/SectionHeading";
+import { GradientText } from "../components/ui/GradientText";
+import { GlassCard } from "../components/ui/GlassCard";
 import { fadeUp } from "../lib/animations";
 
 const auditQuestions = [
@@ -180,51 +181,55 @@ export default function AutomationAudit() {
                 initial={{ opacity: 0, y: 40 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 }}
-                className="rounded-3xl border-2 bg-white p-8 shadow-sm mb-8"
-                style={{
-                  borderColor: insight.borderColor,
-                  backgroundColor: insight.bgColor,
-                }}
               >
-                <p className="text-lg text-[#6B7280] mb-6">{insight.description}</p>
-                <div className="space-y-4 mb-8">
-                  <div>
-                    <div className="flex justify-between items-center mb-2">
-                      <span className="text-sm font-medium text-[#374151]">
-                        Automation Score
-                      </span>
-                      <span className="text-2xl font-bold" style={{ color: insight.color }}>
-                        {Math.round(percentage)}%
-                      </span>
-                    </div>
-                    <div className="h-4 bg-[#E5E7EB] rounded-full overflow-hidden">
-                      <motion.div
-                        initial={{ width: 0 }}
-                        animate={{ width: `${percentage}%` }}
-                        transition={{ duration: 0.8 }}
-                        className="h-full"
-                        style={{ backgroundColor: insight.color }}
-                      />
+                <GlassCard
+                  className="p-8 mb-8 border-2"
+                  style={{
+                    borderColor: insight.borderColor,
+                    backgroundColor: insight.bgColor,
+                  }}
+                >
+                  <p className="text-lg text-[#6B7280] mb-6">{insight.description}</p>
+                  <div className="space-y-4 mb-8">
+                    <div>
+                      <div className="flex justify-between items-center mb-2">
+                        <span className="text-sm font-medium text-[#374151]">
+                          Automation Score
+                        </span>
+                        <span className="text-2xl font-bold" style={{ color: insight.color }}>
+                          {Math.round(percentage)}%
+                        </span>
+                      </div>
+                      <div className="h-4 bg-[#E5E7EB] rounded-full overflow-hidden">
+                        <motion.div
+                          initial={{ width: 0 }}
+                          animate={{ width: `${percentage}%` }}
+                          transition={{ duration: 0.8 }}
+                          className="h-full"
+                          style={{ backgroundColor: insight.color }}
+                        />
+                      </div>
                     </div>
                   </div>
-                </div>
+                </GlassCard>
               </motion.div>
 
               <motion.div
                 initial={{ opacity: 0, y: 40 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4 }}
-                className="rounded-3xl border border-[#E5E7EB] bg-white p-8 shadow-sm mb-8"
               >
-                <h3 className="text-2xl font-bold text-[#111827] mb-4">Next Steps</h3>
-                <p className="text-[#6B7280] mb-6">{insight.recommendation}</p>
+                <GlassCard className="p-8 mb-8">
+                  <h3 className="text-2xl font-bold text-[#111827] mb-4">Next Steps</h3>
+                  <p className="text-[#6B7280] mb-6">{insight.recommendation}</p>
 
-                <a
-                  href="/contact"
-                  className="inline-flex rounded-full bg-[#4ADE80] px-8 py-3 font-semibold text-[#111827] shadow-[0_4px_30px_rgba(74,222,128,0.35)] transition-all duration-300 hover:bg-[#34D399] hover:shadow-[0_8px_50px_rgba(74,222,128,0.5)]"
-                >
-                  Schedule Consultation
-                </a>
+                  <a
+                    href="/contact"
+                    className="inline-flex rounded-full bg-gradient-to-r from-[#16A34A] via-[#34D399] to-[#4ADE80] px-8 py-3 font-semibold text-white shadow-[0_4px_30px_rgba(74,222,128,0.35)] transition-all duration-300 hover:shadow-[0_8px_50px_rgba(74,222,128,0.5)]"
+                  >
+                    Schedule Consultation
+                  </a>
+                </GlassCard>
               </motion.div>
 
               <motion.div
@@ -258,16 +263,50 @@ export default function AutomationAudit() {
   return (
     <div className="min-h-screen bg-[#FAFBFC] text-[#1F2937]">
       <Navbar />
-      <main className="pt-24">
+      <main>
+        {/* Hero Section */}
+        <section className="relative overflow-hidden bg-gradient-to-br from-[#1F2937] via-[#111827] to-[#1F2937] px-6 py-24 lg:py-32 min-h-screen flex items-center">
+          {/* Decorative elements */}
+          <div className="pointer-events-none absolute left-[10%] top-[20%] h-[400px] w-[400px] rounded-full bg-[#4ADE80]/[0.08] blur-[120px]" />
+          <div className="pointer-events-none absolute bottom-[10%] right-[15%] h-[300px] w-[300px] rounded-full bg-[#34D399]/[0.06] blur-[120px]" />
+          
+          {/* Grid pattern overlay */}
+          <div
+            className="pointer-events-none absolute inset-0 opacity-[0.03]"
+            style={{
+              backgroundImage: "radial-gradient(rgba(255,255,255,0.5) 1px, transparent 1px)",
+              backgroundSize: "40px 40px",
+            }}
+          />
+
+          <div className="relative mx-auto max-w-4xl text-center">
+            <motion.div
+              initial={{ opacity: 0, y: 20, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
+            >
+              {/* Badge */}
+              <div className="mb-6 flex justify-center">
+                <span className="inline-flex items-center gap-2 rounded-full border border-[#4ADE80]/25 bg-[#4ADE80]/[0.08] px-5 py-2 text-xs font-semibold uppercase tracking-[0.15em] text-[#4ADE80] backdrop-blur-sm">
+                  <ClipboardCheck className="h-4 w-4" />
+                  Free Audit
+                </span>
+              </div>
+
+              <h1 className="text-4xl font-extrabold leading-tight tracking-tight text-white md:text-5xl lg:text-6xl">
+                Discover Your <GradientText>Automation Potential</GradientText>
+              </h1>
+              <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-white/70 md:text-xl">
+                Take our 3-minute audit to uncover hidden opportunities for automation in your business. Get a personalized score and actionable recommendations.
+              </p>
+            </motion.div>
+          </div>
+        </section>
+
+        {/* Quiz Section */}
         <section className="px-6 py-24 lg:py-32">
           <div className="mx-auto max-w-2xl">
-            <SectionHeading
-              title="Automation Audit"
-              subtitle="Discover your automation potential in 3 minutes"
-              className="text-center"
-            />
-
-            <div className="mt-16 rounded-3xl border border-[#E5E7EB] bg-white p-8 shadow-sm">
+            <GlassCard className="p-8">
               {/* Progress Bar */}
               <div className="mb-8">
                 <div className="flex items-center justify-between mb-2">
@@ -283,7 +322,7 @@ export default function AutomationAudit() {
                     initial={{ width: 0 }}
                     animate={{ width: `${progress}%` }}
                     transition={{ duration: 0.5 }}
-                    className="h-full bg-[#4ADE80]"
+                    className="h-full bg-gradient-to-r from-[#16A34A] to-[#4ADE80]"
                   />
                 </div>
               </div>
@@ -314,7 +353,7 @@ export default function AutomationAudit() {
                   </div>
                 </motion.div>
               </AnimatePresence>
-            </div>
+            </GlassCard>
           </div>
         </section>
       </main>

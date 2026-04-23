@@ -4,7 +4,6 @@ import { CheckCircle, ArrowRight, ArrowLeft } from "lucide-react";
 import { Navbar } from "../components/layout/Navbar";
 import { Footer } from "../components/layout/Footer";
 import { SectionHeading } from "../components/ui/SectionHeading";
-import { fadeUp } from "../lib/animations";
 
 const questions = [
   {
@@ -197,7 +196,6 @@ export default function ServiceSelector() {
             <SectionHeading
               title="Find Your Perfect Automation"
               subtitle="Answer 4 quick questions and get personalized recommendations"
-              className="text-center"
             />
 
             <div className="mt-16 rounded-3xl border border-[#E5E7EB] bg-white p-8 shadow-sm">
