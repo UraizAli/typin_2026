@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { staggerContainer, staggerItem } from "../../lib/animations";
 import { AnimatedSection } from "../ui/AnimatedSection";
+import { AppLink } from "../ui/AppLink";
 
 const footerLinks = [
   { label: "Services", path: "/services" },
@@ -39,7 +40,7 @@ export function Footer() {
             </span>
           </Link>
           <p className="max-w-[300px] text-[15px] leading-7 text-[#9CA3AF]">
-            We help SMEs replace manual busywork with AI-powered automation — so your
+            We help SMEs replace manual busywork with AI-powered automation so your
             team can do more with fewer people and zero wasted hours.
           </p>
         </motion.div>

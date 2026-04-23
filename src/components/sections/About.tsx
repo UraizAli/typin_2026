@@ -3,6 +3,7 @@ import { useEffect, useRef } from "react";
 import { ArrowRight } from "lucide-react";
 import { SectionHeading } from "../ui/SectionHeading";
 import { AnimatedSection } from "../ui/AnimatedSection";
+import { AppLink } from "../ui/AppLink";
 
 const ABOUT_VIDEO =
   "https://www.pexels.com/download/video/3202364/";
@@ -73,13 +74,13 @@ export function About() {
           </AnimatedSection>
 
           <AnimatedSection delay={0.3}>
-            <a
+            <AppLink
               href="#contact"
               className="inline-flex items-center gap-2 text-[15px] font-semibold text-[#16A34A] transition-all duration-300 hover:gap-3"
             >
               See how we can help your business
               <ArrowRight className="h-4 w-4" />
-            </a>
+            </AppLink>
           </AnimatedSection>
         </div>
 
