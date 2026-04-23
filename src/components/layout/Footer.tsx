@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { staggerContainer, staggerItem } from "../../lib/animations";
 import { AnimatedSection } from "../ui/AnimatedSection";
+import { AppLink } from "../ui/AppLink";
 
 const footerLinks = [
   { label: "About Us", href: "#about" },
@@ -22,16 +23,16 @@ export function Footer() {
         className="mx-auto grid max-w-7xl gap-12 md:grid-cols-2 lg:grid-cols-4"
       >
         <motion.div variants={staggerItem} className="space-y-6">
-          <a href="#top" className="flex shrink-0 flex-col leading-none">
+          <AppLink href="#top" className="flex shrink-0 flex-col leading-none">
             <span className="font-['Inspiration',cursive] text-[34px] text-white">
               Typin
             </span>
             <span className="-mt-1.5 text-[10px] font-semibold uppercase tracking-[0.32em] text-[#4ADE80]">
               AI Automation
             </span>
-          </a>
+          </AppLink>
           <p className="max-w-[300px] text-[15px] leading-7 text-[#9CA3AF]">
-            We help SMEs replace manual busywork with AI-powered automation — so your
+            We help SMEs replace manual busywork with AI-powered automation so your
             team can do more with fewer people and zero wasted hours.
           </p>
         </motion.div>
@@ -42,13 +43,13 @@ export function Footer() {
           </h3>
           <div className="flex flex-col gap-3">
             {footerLinks.map((link) => (
-              <a
+              <AppLink
                 key={link.label}
                 href={link.href}
                 className="text-[15px] text-[#9CA3AF] transition-colors duration-200 hover:text-[#4ADE80]"
               >
                 {link.label}
-              </a>
+              </AppLink>
             ))}
           </div>
         </motion.div>
