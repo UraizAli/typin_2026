@@ -41,7 +41,7 @@ const services = [
     title: "Handle 10x More Enquiries",
     description:
       "AI chatbots for sales, support, and bookings that work 24/7 without hiring more people.",
-    image: "https://images.unsplash.com/photo-1531746790095-e5995da25a78?w=500&q=80",
+    image: "https://unsplash.com/photos/BlWbfrQrI5k/download?force=true&w=500",
     color: "#059669",
     size: "small",
   },
@@ -81,7 +81,7 @@ const services = [
     title: "Your 24/7 Digital Employee",
     description:
       "Deploy AI assistants that handle qualification, appointment booking, FAQs, and client nurture — around the clock, without breaks or sick days.",
-    image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=600&q=80",
+    image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=600&q=80",
     color: "#D97706",
     size: "big",
   },
@@ -91,7 +91,7 @@ const services = [
     title: "Built Around Your Workflow",
     description:
       "Tailored portals, dashboards, and apps designed specifically for how your team works.",
-    image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=500&q=80",
+    image: "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?w=500&q=80",
     color: "#DC2626",
     size: "small",
   },
@@ -101,7 +101,7 @@ const services = [
     title: "Automated Outreach That Converts",
     description:
       "Smart email sequences and drip campaigns that nurture leads on autopilot.",
-    image: "https://images.unsplash.com/photo-1563986768609-322da13575f2?w=500&q=80",
+    image: "https://unsplash.com/photos/wAZ8pS2D_OA/download?force=true&w=500",
     color: "#7C3AED",
     size: "small",
   },
@@ -242,7 +242,7 @@ export function Services() {
               viewport={{ once: true, amount: 0.1 }}
               className="grid gap-5 md:grid-cols-2 lg:grid-cols-4"
             >
-              {row.map((service) => (
+              {(rowIdx % 2 === 1 ? [...row.slice(1), row[0]] : row).map((service) => (
                 <ServiceCard key={service.title} service={service} />
               ))}
             </motion.div>

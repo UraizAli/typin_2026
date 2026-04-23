@@ -96,6 +96,25 @@ img {
   to { --angle: 360deg; }
 }
 
+@keyframes brand-sparkle {
+  0%, 100% {
+    text-shadow:
+      0 0 0 rgba(74, 222, 128, 0),
+      0 0 0 rgba(163, 230, 53, 0);
+    filter: brightness(1);
+  }
+  50% {
+    text-shadow:
+      0 0 12px rgba(74, 222, 128, 0.25),
+      0 0 24px rgba(163, 230, 53, 0.18);
+    filter: brightness(1.05);
+  }
+}
+
+.brand-sparkle {
+  animation: brand-sparkle 3.6s ease-in-out infinite;
+}
+
 /* Counter animation */
 @keyframes count-up {
   from { opacity: 0; transform: translateY(10px); }
