@@ -32,35 +32,26 @@ const navItems = [
 
 function BrandMark({ mobile = false }: { mobile?: boolean }) {
   const wrapperClasses = mobile
-    ? "rounded-full bg-[#111827] px-5 py-3 shadow-[0_14px_36px_rgba(17,24,39,0.2)] ring-1 ring-white/10"
-    : "rounded-full bg-[#111827]/92 px-4 py-2 shadow-[0_10px_32px_rgba(17,24,39,0.22)] ring-1 ring-white/10 backdrop-blur-md transition-all duration-300 group-hover:-translate-y-0.5 group-hover:shadow-[0_16px_40px_rgba(22,163,74,0.2)]";
+    ? "px-2 py-1"
+    : "px-2 py-1 transition-all duration-300 group-hover:-translate-y-0.5";
   const titleClasses = mobile
-    ? "text-[40px] tracking-[-0.06em]"
-    : "text-[23px] tracking-[-0.05em] lg:text-[26px]";
+    ? "text-[33px] tracking-[-0.03em]"
+    : "text-[19px] tracking-[-0.02em] lg:text-[21px]";
   const gradientClasses = mobile
-    ? "text-[40px] tracking-[-0.065em]"
-    : "text-[23px] tracking-[-0.06em] lg:text-[26px]";
+    ? "text-[42px] tracking-[-0.07em]"
+    : "text-[25px] tracking-[-0.06em] lg:text-[28px]";
   const trailingClasses = mobile
-    ? "text-[40px] tracking-[-0.06em]"
-    : "text-[23px] tracking-[-0.055em] lg:text-[26px]";
+    ? "text-[33px] tracking-[-0.03em]"
+    : "text-[19px] tracking-[-0.02em] lg:text-[21px]";
   const dotClasses = mobile ? "ml-2 h-2.5 w-2.5" : "ml-2 h-2 w-2";
 
   return (
     <span className={`inline-flex items-center ${wrapperClasses}`}>
-      <span className={`${titleClasses} font-black text-white`}>T</span>
-      <span
-        className={`ml-[1px] bg-[linear-gradient(135deg,#4ADE80_0%,#34D399_45%,#A3E635_100%)] bg-clip-text font-black italic text-transparent ${gradientClasses}`}
-      >
-        y
+      <span className={`${titleClasses} font-black text-black`}>T</span>
+      <span className={`ml-[1px] font-black italic text-[#4ADE80] ${gradientClasses}`}>
+        Y
       </span>
-      <span
-        className={`bg-[linear-gradient(135deg,#4ADE80_0%,#34D399_45%,#A3E635_100%)] bg-clip-text font-black text-transparent ${trailingClasses}`}
-      >
-        pin
-      </span>
-      <span
-        className={`${dotClasses} rounded-full bg-[#4ADE80] shadow-[0_0_18px_rgba(74,222,128,0.75)]`}
-      />
+      <span className={`font-black text-black ${trailingClasses}`}>pin</span>
     </span>
   );
 }
@@ -84,19 +75,8 @@ export function Navbar() {
               : "border-white/30 bg-white/40 shadow-[0_4px_30px_rgba(0,0,0,0.03)] backdrop-blur-xl"
           }`}
         >
-          <Link to="/" className="group flex shrink-0 items-center pl-3">
-            <span className="inline-flex items-center rounded-full bg-[#111827]/92 px-4 py-2 shadow-[0_10px_32px_rgba(17,24,39,0.22)] ring-1 ring-white/10 backdrop-blur-md transition-all duration-300 group-hover:-translate-y-0.5 group-hover:shadow-[0_16px_40px_rgba(22,163,74,0.2)]">
-              <span className="text-[23px] font-black tracking-[-0.05em] text-white lg:text-[26px]">
-                T
-              </span>
-              <span className="ml-[1px] bg-[linear-gradient(135deg,#4ADE80_0%,#34D399_45%,#A3E635_100%)] bg-clip-text text-[23px] font-black italic tracking-[-0.06em] text-transparent lg:text-[26px]">
-                y
-              </span>
-              <span className="bg-[linear-gradient(135deg,#4ADE80_0%,#34D399_45%,#A3E635_100%)] bg-clip-text text-[23px] font-black tracking-[-0.055em] text-transparent lg:text-[26px]">
-                pin
-              </span>
-              <span className="ml-2 h-2 w-2 rounded-full bg-[#4ADE80] shadow-[0_0_16px_rgba(74,222,128,0.75)]" />
-            </span>
+          <Link to="#" className="group flex shrink-0 items-center pl-3">
+            <BrandMark />
           </Link>
 
           <div className="hidden flex-1 items-center justify-center gap-1 px-4 lg:flex">
@@ -199,18 +179,7 @@ export function Navbar() {
                 className="mb-6 flex flex-col items-center leading-none"
                 onClick={() => setMobileOpen(false)}
               >
-                <span className="inline-flex items-center rounded-full bg-[#111827] px-5 py-3 shadow-[0_14px_36px_rgba(17,24,39,0.2)] ring-1 ring-white/10">
-                  <span className="text-[40px] font-black tracking-[-0.06em] text-white">
-                    T
-                  </span>
-                  <span className="ml-[1px] bg-[linear-gradient(135deg,#4ADE80_0%,#34D399_45%,#A3E635_100%)] bg-clip-text text-[40px] font-black italic tracking-[-0.065em] text-transparent">
-                    y
-                  </span>
-                  <span className="bg-[linear-gradient(135deg,#4ADE80_0%,#34D399_45%,#A3E635_100%)] bg-clip-text text-[40px] font-black tracking-[-0.06em] text-transparent">
-                    pin
-                  </span>
-                  <span className="ml-2 h-2.5 w-2.5 rounded-full bg-[#4ADE80] shadow-[0_0_18px_rgba(74,222,128,0.75)]" />
-                </span>
+                <BrandMark mobile />
               </Link>
 
               {navItems.map((item, i) => (
