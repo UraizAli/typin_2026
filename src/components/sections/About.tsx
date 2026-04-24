@@ -1,11 +1,12 @@
 import { motion, useMotionValue, useTransform, animate } from "framer-motion";
 import { useEffect, useRef } from "react";
-import { ArrowRight, Play } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { SectionHeading } from "../ui/SectionHeading";
 import { AnimatedSection } from "../ui/AnimatedSection";
+import { AppLink } from "../ui/AppLink";
 
-const ABOUT_IMAGE =
-  "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&q=80";
+const ABOUT_VIDEO =
+  "https://www.pexels.com/download/video/3202364/";
 
 function AnimatedCounter({ target, suffix = "" }: { target: number; suffix?: string }) {
   const count = useMotionValue(0);
@@ -73,13 +74,13 @@ export function About() {
           </AnimatedSection>
 
           <AnimatedSection delay={0.3}>
-            <a
+            <AppLink
               href="#contact"
               className="inline-flex items-center gap-2 text-[15px] font-semibold text-[#16A34A] transition-all duration-300 hover:gap-3"
             >
               See how we can help your business
               <ArrowRight className="h-4 w-4" />
-            </a>
+            </AppLink>
           </AnimatedSection>
         </div>
 
@@ -92,21 +93,16 @@ export function About() {
         >
           <div className="absolute -inset-6 -z-10 rounded-full bg-[radial-gradient(circle,rgba(22,163,74,0.06),transparent_60%)]" />
           <div className="overflow-hidden rounded-3xl shadow-[0_25px_60px_rgba(0,0,0,0.1)] ring-1 ring-black/[0.05]">
-            <img
-              src={ABOUT_IMAGE}
-              alt="Team collaborating on automation strategy"
+            <video
+              src={ABOUT_VIDEO}
               className="h-full w-full object-cover"
+              autoPlay
+              muted
+              loop
+              playsInline
+              controls
             />
           </div>
-          <button
-            className="absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 items-center justify-center"
-            type="button"
-          >
-            <span className="absolute h-20 w-20 animate-ping rounded-full bg-[#16A34A]/15" />
-            <span className="pulse-glow relative flex h-16 w-16 items-center justify-center rounded-full bg-[#16A34A] text-white shadow-[0_10px_30px_rgba(22,163,74,0.4)]">
-              <Play className="h-6 w-6 fill-white" />
-            </span>
-          </button>
         </motion.div>
       </div>
     </section>

@@ -3,6 +3,7 @@ import { useRef } from "react";
 import { ArrowRight } from "lucide-react";
 import { SectionHeading } from "../ui/SectionHeading";
 import { fadeUp } from "../../lib/animations";
+import { AppLink } from "../ui/AppLink";
 
 const caseStudies = [
   {
@@ -104,12 +105,12 @@ export function CaseStudies() {
                 <div className="mt-6 inline-flex w-fit items-center gap-2 rounded-xl border border-[#10B981]/20 bg-[#10B981]/[0.06] px-4 py-2 text-sm font-bold text-[#10B981]">
                   {study.result}
                 </div>
-                <a
+                <AppLink
                   href="#contact"
                   className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-[#16A34A] transition-all hover:gap-3"
                 >
                   Read full story <ArrowRight className="h-4 w-4" />
-                </a>
+                </AppLink>
               </div>
             </motion.article>
           ))}
