@@ -5,6 +5,7 @@ import { Navbar } from "../components/layout/Navbar";
 import { Footer } from "../components/layout/Footer";
 import { SectionHeading } from "../components/ui/SectionHeading";
 import { GradientText } from "../components/ui/GradientText";
+import { AnimatedHeroBackground } from "../components/ui/AnimatedHeroBackground";
 
 const questions = [
   {
@@ -122,6 +123,9 @@ export default function ServiceSelector() {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState<Record<number, string>>({});
   const [showResults, setShowResults] = useState(false);
+  const [showContactForm, setShowContactForm] = useState(false);
+  const [contactInfo, setContactInfo] = useState({ email: "", phone: "" });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleAnswer = (qId: number, answer: string) => {
     setAnswers((prev) => ({ ...prev, [qId]: answer }));
@@ -131,8 +135,36 @@ export default function ServiceSelector() {
     if (currentQuestion < questions.length - 1) {
       setCurrentQuestion(currentQuestion + 1);
     } else {
-      setShowResults(true);
+      setShowContactForm(true);
     }
+  };
+
+  const handleContactSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!contactInfo.email || !contactInfo.phone) return;
+    
+    setIsSubmitting(true);
+    
+    try {
+      await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: contactInfo.email.split("@")[0],
+          email: contactInfo.email,
+          phone: contactInfo.phone,
+          company: "",
+          message: `Service Selector Results Request - Answers: ${JSON.stringify(answers)}`,
+          source: "Service Selector",
+        }),
+      });
+    } catch (error) {
+      console.error("Failed to submit contact info:", error);
+    }
+    
+    setIsSubmitting(false);
+    setShowContactForm(false);
+    setShowResults(true);
   };
 
   const prevQuestion = () => {
@@ -216,6 +248,154 @@ export default function ServiceSelector() {
 
   const progress = ((currentQuestion + 1) / questions.length) * 100;
 
+  // Contact Form Screen
+  if (showContactForm) {
+    return (
+      <div className="min-h-screen bg-[#FAFBFC] text-[#1F2937]">
+        <Navbar />
+        <main className="pt-24">
+          <section className="relative px-6 py-24 lg:py-32 overflow-hidden">
+            {/* Background Pattern */}
+            <div 
+              className="absolute inset-0 opacity-[0.06]" 
+              style={{
+                backgroundImage: "radial-gradient(circle, rgba(74,222,128,0.5) 2px, transparent 2px)",
+                backgroundSize: "50px 50px"
+              }} 
+            />
+            
+            {/* Animated Gradient Orbs */}
+            <motion.div
+              animate={{
+                x: [0, 60, 0],
+                y: [0, -40, 0],
+                scale: [1, 1.2, 1],
+                opacity: [0.1, 0.15, 0.1]
+              }}
+              transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
+              className="absolute top-0 left-0 w-[650px] h-[650px] bg-gradient-to-br from-[#4ADE80] via-[#34D399] to-transparent rounded-full blur-3xl"
+            />
+            <motion.div
+              animate={{
+                x: [0, -60, 0],
+                y: [0, 40, 0],
+                scale: [1, 1.25, 1],
+                opacity: [0.1, 0.15, 0.1]
+              }}
+              transition={{ duration: 16, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+              className="absolute bottom-0 right-0 w-[700px] h-[700px] bg-gradient-to-tl from-[#34D399] via-[#10B981] to-transparent rounded-full blur-3xl"
+            />
+            
+            <div className="mx-auto max-w-2xl relative z-10">
+              <motion.div
+                initial={{ opacity: 0, y: 40 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="text-center mb-12"
+              >
+                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[#4ADE80]/10 mb-6">
+                  <CheckCircle className="h-8 w-8 text-[#16A34A]" />
+                </div>
+                <h1 className="text-3xl font-bold text-[#111827] mb-4">
+                  Almost There! Get Your Results
+                </h1>
+                <p className="text-lg text-[#6B7280]">
+                  Enter your contact information to receive your personalized automation recommendations.
+                </p>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, y: 40 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 }}
+                className="rounded-3xl border border-[#E5E7EB] bg-white p-8 shadow-lg"
+              >
+                <form onSubmit={handleContactSubmit} className="space-y-6">
+                  <div>
+                    <label htmlFor="email" className="block text-sm font-semibold text-[#111827] mb-2">
+                      Email Address *
+                    </label>
+                    <input
+                      type="email"
+                      id="email"
+                      required
+                      value={contactInfo.email}
+                      onChange={(e) => setContactInfo({ ...contactInfo, email: e.target.value })}
+                      placeholder="your@email.com"
+                      className="w-full rounded-lg border-2 border-[#E5E7EB] px-4 py-3 text-[#111827] focus:border-[#4ADE80] focus:outline-none transition-colors"
+                    />
+                  </div>
+
+                  <div>
+                    <label htmlFor="phone" className="block text-sm font-semibold text-[#111827] mb-2">
+                      Phone Number *
+                    </label>
+                    <input
+                      type="tel"
+                      id="phone"
+                      required
+                      value={contactInfo.phone}
+                      onChange={(e) => setContactInfo({ ...contactInfo, phone: e.target.value })}
+                      placeholder="+1 (555) 000-0000"
+                      className="w-full rounded-lg border-2 border-[#E5E7EB] px-4 py-3 text-[#111827] focus:border-[#4ADE80] focus:outline-none transition-colors"
+                    />
+                  </div>
+
+                  <div className="p-4 bg-[#F0FDF4] border border-[#4ADE80]/20 rounded-xl">
+                    <div className="flex items-start gap-3">
+                      <CheckCircle className="h-5 w-5 text-[#16A34A] shrink-0 mt-0.5" />
+                      <div className="text-sm text-[#6B7280]">
+                        <p className="font-semibold text-[#111827] mb-1">Why we need this:</p>
+                        <ul className="space-y-1">
+                          <li>• Deliver your personalized recommendations</li>
+                          <li>• Schedule a free consultation if needed</li>
+                          <li>• Send you relevant automation insights</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex gap-4">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setShowContactForm(false);
+                        setCurrentQuestion(questions.length - 1);
+                      }}
+                      className="flex-1 rounded-full border-2 border-[#E5E7EB] py-3 font-semibold text-[#111827] transition-all hover:border-[#4ADE80]"
+                    >
+                      <ArrowLeft className="h-4 w-4 inline mr-2" />
+                      Back
+                    </button>
+                    <button
+                      type="submit"
+                      disabled={isSubmitting || !contactInfo.email || !contactInfo.phone}
+                      className="flex-1 rounded-full bg-[#4ADE80] py-3 font-semibold text-[#111827] shadow-[0_4px_30px_rgba(74,222,128,0.35)] transition-all hover:bg-[#34D399] disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      {isSubmitting ? "Submitting..." : "View My Results"}
+                      <ArrowRight className="h-4 w-4 inline ml-2" />
+                    </button>
+                  </div>
+                </form>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.4 }}
+                className="text-center mt-6"
+              >
+                <p className="text-sm text-[#6B7280]">
+                  🔒 Your information is secure and will never be shared with third parties.
+                </p>
+              </motion.div>
+            </div>
+          </section>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
   if (showResults) {
     const recommendation = getRecommendation();
 
@@ -223,8 +403,124 @@ export default function ServiceSelector() {
       <div className="min-h-screen bg-[#FAFBFC] text-[#1F2937]">
         <Navbar />
         <main className="pt-24">
-          <section className="px-6 py-24 lg:py-32">
-            <div className="mx-auto max-w-3xl">
+          <section className="relative px-6 py-24 lg:py-32 overflow-hidden">
+            {/* Attractive Hexagon Pattern Background */}
+            <div 
+              className="absolute inset-0 opacity-[0.06]" 
+              style={{
+                backgroundImage: `
+                  linear-gradient(30deg, rgba(74,222,128,0.25) 12%, transparent 12.5%, transparent 87%, rgba(74,222,128,0.25) 87.5%),
+                  linear-gradient(150deg, rgba(74,222,128,0.25) 12%, transparent 12.5%, transparent 87%, rgba(74,222,128,0.25) 87.5%),
+                  linear-gradient(30deg, rgba(52,211,153,0.25) 12%, transparent 12.5%, transparent 87%, rgba(52,211,153,0.25) 87.5%),
+                  linear-gradient(150deg, rgba(52,211,153,0.25) 12%, transparent 12.5%, transparent 87%, rgba(52,211,153,0.25) 87.5%)
+                `,
+                backgroundSize: "80px 140px",
+                backgroundPosition: "0 0, 0 0, 40px 70px, 40px 70px"
+              }} 
+            />
+            
+            {/* Large Decorative Background Elements */}
+            <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
+              {/* Top Left - Trophy */}
+              <svg className="absolute top-10 left-10 w-[280px] h-[280px] opacity-[0.12]" viewBox="0 0 100 100">
+                <defs>
+                  <linearGradient id="trophyGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stopColor="#4ADE80" stopOpacity="0.6"/>
+                    <stop offset="100%" stopColor="#34D399" stopOpacity="0.6"/>
+                  </linearGradient>
+                  <filter id="trophyGlow">
+                    <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+                    <feMerge>
+                      <feMergeNode in="coloredBlur"/>
+                      <feMergeNode in="SourceGraphic"/>
+                    </feMerge>
+                  </filter>
+                </defs>
+                <path d="M25,20 L25,35 Q25,50 40,50 L60,50 Q75,50 75,35 L75,20" fill="url(#trophyGradient)" stroke="#4ADE80" strokeWidth="3" filter="url(#trophyGlow)"/>
+                <rect x="35" y="15" width="30" height="35" rx="3" fill="url(#trophyGradient)" stroke="#4ADE80" strokeWidth="3" filter="url(#trophyGlow)"/>
+                <path d="M42,50 L42,65 L58,65 L58,50" fill="url(#trophyGradient)" stroke="#4ADE80" strokeWidth="3" filter="url(#trophyGlow)"/>
+                <rect x="32" y="65" width="36" height="10" rx="3" fill="url(#trophyGradient)" stroke="#4ADE80" strokeWidth="3" filter="url(#trophyGlow)"/>
+                <text x="50" y="38" textAnchor="middle" fill="#fff" fontSize="20" fontWeight="bold">1</text>
+              </svg>
+              
+              {/* Top Right - Star Rating */}
+              <svg className="absolute top-20 right-20 w-[320px] h-[320px] opacity-[0.1]" viewBox="0 0 100 100">
+                <defs>
+                  <radialGradient id="starGlow">
+                    <stop offset="0%" stopColor="#4ADE80" stopOpacity="0.8"/>
+                    <stop offset="100%" stopColor="#4ADE80" stopOpacity="0"/>
+                  </radialGradient>
+                </defs>
+                <circle cx="50" cy="50" r="45" fill="url(#starGlow)"/>
+                <path d="M50,15 L58,38 L82,38 L63,52 L71,75 L50,61 L29,75 L37,52 L18,38 L42,38 Z" 
+                  fill="#4ADE80" stroke="#34D399" strokeWidth="2" opacity="0.8" 
+                  filter="drop-shadow(0 0 20px rgba(74,222,128,0.6))"/>
+              </svg>
+              
+              {/* Middle - Percentage Circle */}
+              <svg className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] opacity-[0.06]" viewBox="0 0 100 100">
+                <defs>
+                  <linearGradient id="percentGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="#4ADE80"/>
+                    <stop offset="100%" stopColor="#34D399"/>
+                  </linearGradient>
+                </defs>
+                <circle cx="50" cy="50" r="48" fill="none" stroke="url(#percentGradient)" strokeWidth="3" strokeDasharray="8,4"/>
+                <text x="50" y="65" textAnchor="middle" fill="url(#percentGradient)" fontSize="45" fontWeight="black">%</text>
+              </svg>
+              
+              {/* Bottom Left - Gauge */}
+              <svg className="absolute bottom-10 left-10 w-[300px] h-[300px] opacity-[0.12]" viewBox="0 0 100 100">
+                <defs>
+                  <linearGradient id="gaugeGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="#DC2626"/>
+                    <stop offset="50%" stopColor="#F59E0B"/>
+                    <stop offset="100%" stopColor="#4ADE80"/>
+                  </linearGradient>
+                </defs>
+                <path d="M15,75 A35,35 0 1,1 85,75" fill="none" stroke="url(#gaugeGradient)" strokeWidth="8" strokeLinecap="round"/>
+                <circle cx="50" cy="75" r="6" fill="#4ADE80" filter="drop-shadow(0 0 10px rgba(74,222,128,0.8))"/>
+                <line x1="50" y1="75" x2="70" y2="50" stroke="#4ADE80" strokeWidth="3" strokeLinecap="round" 
+                  filter="drop-shadow(0 0 8px rgba(74,222,128,0.6))"/>
+              </svg>
+              
+              {/* Bottom Right - Checkmark Badge */}
+              <svg className="absolute bottom-20 right-20 w-[260px] h-[260px] opacity-[0.1]" viewBox="0 0 100 100">
+                <defs>
+                  <radialGradient id="badgeGlow">
+                    <stop offset="0%" stopColor="#4ADE80" stopOpacity="0.6"/>
+                    <stop offset="100%" stopColor="#4ADE80" stopOpacity="0"/>
+                  </radialGradient>
+                </defs>
+                <circle cx="50" cy="50" r="40" fill="url(#badgeGlow)"/>
+                <circle cx="50" cy="50" r="35" fill="#4ADE80" opacity="0.6"/>
+                <path d="M30,50 L44,64 L70,38" fill="none" stroke="#fff" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </div>
+            
+            {/* Large Animated Gradient Orbs */}
+            <motion.div
+              animate={{
+                x: [0, 70, 0],
+                y: [0, -35, 0],
+                scale: [1, 1.2, 1],
+                opacity: [0.12, 0.18, 0.12]
+              }}
+              transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
+              className="absolute top-0 left-0 w-[700px] h-[700px] bg-gradient-to-br from-[#4ADE80] via-[#34D399] to-transparent rounded-full blur-3xl"
+            />
+            <motion.div
+              animate={{
+                x: [0, -70, 0],
+                y: [0, 35, 0],
+                scale: [1, 1.25, 1],
+                opacity: [0.12, 0.18, 0.12]
+              }}
+              transition={{ duration: 17, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+              className="absolute bottom-0 right-0 w-[750px] h-[750px] bg-gradient-to-tl from-[#34D399] via-[#10B981] to-transparent rounded-full blur-3xl"
+            />
+            
+            <div className="mx-auto max-w-3xl relative z-10">
               <motion.div
                 initial={{ opacity: 0, y: 40 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -370,6 +666,8 @@ export default function ServiceSelector() {
                     setCurrentQuestion(0);
                     setAnswers({});
                     setShowResults(false);
+                    setShowContactForm(false);
+                    setContactInfo({ email: "", phone: "" });
                   }}
                   className="text-[#16A34A] hover:text-[#15803D] font-medium transition-colors"
                 >
@@ -391,48 +689,142 @@ export default function ServiceSelector() {
     <div className="min-h-screen bg-[#FAFBFC] text-[#1F2937]">
       <Navbar />
       <main>
-        {/* Hero Section */}
-        <section className="relative overflow-hidden bg-gradient-to-br from-[#1F2937] via-[#111827] to-[#1F2937] px-6 py-24 lg:py-32 min-h-screen flex items-center">
-          {/* Decorative elements */}
-          <div className="pointer-events-none absolute left-[10%] top-[20%] h-[400px] w-[400px] rounded-full bg-[#4ADE80]/[0.08] blur-[120px]" />
-          <div className="pointer-events-none absolute bottom-[10%] right-[15%] h-[300px] w-[300px] rounded-full bg-[#34D399]/[0.06] blur-[120px]" />
-          
-          {/* Grid pattern overlay */}
-          <div
-            className="pointer-events-none absolute inset-0 opacity-[0.03]"
-            style={{
-              backgroundImage: "radial-gradient(rgba(255,255,255,0.5) 1px, transparent 1px)",
-              backgroundSize: "40px 40px",
-            }}
-          />
-
-          <div className="relative mx-auto max-w-4xl text-center">
-            <motion.div
-              initial={{ opacity: 0, y: 20, scale: 0.95 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
-            >
-              {/* Badge */}
-              <div className="mb-6 flex justify-center">
-                <span className="inline-flex items-center gap-2 rounded-full border border-[#4ADE80]/25 bg-[#4ADE80]/[0.08] px-5 py-2 text-xs font-semibold uppercase tracking-[0.15em] text-[#4ADE80] backdrop-blur-sm">
-                  <CheckCircle className="h-4 w-4" />
-                  Service Selector
-                </span>
-              </div>
-
-              <h1 className="text-4xl font-extrabold leading-tight tracking-tight text-white md:text-5xl lg:text-6xl">
-                Find Your <GradientText>Perfect Solution</GradientText>
-              </h1>
-              <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-white/70 md:text-xl">
-                Answer 6 quick questions and get personalized automation recommendations tailored to your business needs.
-              </p>
-            </motion.div>
-          </div>
-        </section>
+        {/* Hero Section with Animated Background */}
+        <AnimatedHeroBackground
+          badge={{
+            icon: <CheckCircle className="h-4 w-4" />,
+            text: "Service Selector",
+          }}
+          title={
+            <>
+              Find Your <GradientText>Perfect Solution</GradientText>
+            </>
+          }
+          subtitle="Answer 6 quick questions and get personalized automation recommendations tailored to your business needs."
+        >
+          <></>
+        </AnimatedHeroBackground>
 
         {/* Quiz Section */}
-        <section className="px-6 py-24 lg:py-32">
-          <div className="mx-auto max-w-2xl">
+        <section className="relative px-6 py-24 lg:py-32 overflow-hidden">
+          {/* Attractive Dot Pattern Background */}
+          <div 
+            className="absolute inset-0 opacity-[0.1]" 
+            style={{
+              backgroundImage: "radial-gradient(circle, rgba(74,222,128,0.5) 2px, transparent 2px)",
+              backgroundSize: "50px 50px"
+            }} 
+          />
+          
+          {/* Large Decorative Background Elements */}
+          <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
+            {/* Top Left - Large Checkmark Circle */}
+            <svg className="absolute top-10 left-10 w-[300px] h-[300px] opacity-[0.12]" viewBox="0 0 100 100">
+              <defs>
+                <filter id="checkGlow">
+                  <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                  <feMerge>
+                    <feMergeNode in="coloredBlur"/>
+                    <feMergeNode in="SourceGraphic"/>
+                  </feMerge>
+                </filter>
+              </defs>
+              <circle cx="50" cy="50" r="45" fill="none" stroke="#4ADE80" strokeWidth="4" filter="url(#checkGlow)"/>
+              <path d="M25,50 L42,67 L75,34" fill="none" stroke="#4ADE80" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round" filter="url(#checkGlow)"/>
+            </svg>
+            
+            {/* Top Right - Large Question Mark */}
+            <div className="absolute top-20 right-20 text-[#4ADE80] opacity-[0.15] text-[220px] font-black leading-none" style={{
+              textShadow: "0 0 100px rgba(74,222,128,0.4)"
+            }}>
+              ?
+            </div>
+            
+            {/* Middle Left - Service Grid */}
+            <svg className="absolute top-1/3 left-10 w-[280px] h-[280px] opacity-[0.1]" viewBox="0 0 100 100">
+              <defs>
+                <linearGradient id="gridGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="#4ADE80" stopOpacity="0.6"/>
+                  <stop offset="100%" stopColor="#34D399" stopOpacity="0.6"/>
+                </linearGradient>
+              </defs>
+              <rect x="5" y="5" width="40" height="40" rx="8" fill="url(#gridGradient)" stroke="#4ADE80" strokeWidth="2"/>
+              <rect x="55" y="5" width="40" height="40" rx="8" fill="url(#gridGradient)" stroke="#4ADE80" strokeWidth="2"/>
+              <rect x="5" y="55" width="40" height="40" rx="8" fill="url(#gridGradient)" stroke="#4ADE80" strokeWidth="2"/>
+              <rect x="55" y="55" width="40" height="40" rx="8" fill="url(#gridGradient)" stroke="#4ADE80" strokeWidth="2"/>
+              <circle cx="25" cy="25" r="8" fill="#fff" opacity="0.8"/>
+              <circle cx="75" cy="25" r="8" fill="#fff" opacity="0.8"/>
+              <circle cx="25" cy="75" r="8" fill="#fff" opacity="0.8"/>
+              <circle cx="75" cy="75" r="8" fill="#fff" opacity="0.8"/>
+            </svg>
+            
+            {/* Bottom Right - Large Target/Bullseye */}
+            <svg className="absolute bottom-10 right-10 w-[350px] h-[350px] opacity-[0.1]" viewBox="0 0 100 100">
+              <defs>
+                <radialGradient id="targetGradient">
+                  <stop offset="0%" stopColor="#4ADE80" stopOpacity="0.4"/>
+                  <stop offset="100%" stopColor="#4ADE80" stopOpacity="0"/>
+                </radialGradient>
+              </defs>
+              <circle cx="50" cy="50" r="48" fill="url(#targetGradient)"/>
+              <circle cx="50" cy="50" r="45" fill="none" stroke="#4ADE80" strokeWidth="2"/>
+              <circle cx="50" cy="50" r="35" fill="none" stroke="#34D399" strokeWidth="2"/>
+              <circle cx="50" cy="50" r="25" fill="none" stroke="#4ADE80" strokeWidth="2"/>
+              <circle cx="50" cy="50" r="15" fill="none" stroke="#34D399" strokeWidth="2"/>
+              <circle cx="50" cy="50" r="8" fill="#4ADE80" filter="drop-shadow(0 0 15px rgba(74,222,128,0.8))"/>
+            </svg>
+            
+            {/* Center - Arrow Path */}
+            <svg className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[400px] h-[200px] opacity-[0.08]" viewBox="0 0 200 100">
+              <defs>
+                <linearGradient id="arrowGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="#4ADE80" stopOpacity="0.3"/>
+                  <stop offset="100%" stopColor="#34D399" stopOpacity="0.8"/>
+                </linearGradient>
+              </defs>
+              <path d="M10,50 Q60,20 100,50 T190,50" fill="none" stroke="url(#arrowGradient)" strokeWidth="6" strokeLinecap="round"/>
+              <polygon points="190,50 175,42 175,58" fill="#34D399" opacity="0.8"/>
+            </svg>
+            
+            {/* Bottom Left - Lightbulb */}
+            <svg className="absolute bottom-20 left-20 w-[200px] h-[200px] opacity-[0.12]" viewBox="0 0 100 100">
+              <defs>
+                <radialGradient id="bulbGlow">
+                  <stop offset="0%" stopColor="#4ADE80" stopOpacity="0.6"/>
+                  <stop offset="100%" stopColor="#4ADE80" stopOpacity="0"/>
+                </radialGradient>
+              </defs>
+              <circle cx="50" cy="35" r="30" fill="url(#bulbGlow)"/>
+              <circle cx="50" cy="35" r="22" fill="none" stroke="#4ADE80" strokeWidth="3"/>
+              <path d="M38,57 L38,72 L62,72 L62,57" fill="none" stroke="#4ADE80" strokeWidth="3" strokeLinecap="round"/>
+              <line x1="32" y1="78" x2="68" y2="78" stroke="#4ADE80" strokeWidth="3" strokeLinecap="round"/>
+              <line x1="35" y1="84" x2="65" y2="84" stroke="#4ADE80" strokeWidth="3" strokeLinecap="round"/>
+            </svg>
+          </div>
+          
+          {/* Large Animated Gradient Orbs */}
+          <motion.div
+            animate={{
+              x: [0, 60, 0],
+              y: [0, -40, 0],
+              scale: [1, 1.2, 1],
+              opacity: [0.1, 0.15, 0.1]
+            }}
+            transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute top-0 left-0 w-[650px] h-[650px] bg-gradient-to-br from-[#4ADE80] via-[#34D399] to-transparent rounded-full blur-3xl"
+          />
+          <motion.div
+            animate={{
+              x: [0, -60, 0],
+              y: [0, 40, 0],
+              scale: [1, 1.25, 1],
+              opacity: [0.1, 0.15, 0.1]
+            }}
+            transition={{ duration: 16, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+            className="absolute bottom-0 right-0 w-[700px] h-[700px] bg-gradient-to-tl from-[#34D399] via-[#10B981] to-transparent rounded-full blur-3xl"
+          />
+          
+          <div className="mx-auto max-w-2xl relative z-10">
             <SectionHeading
               title="Let's Find What Works for You"
               subtitle="This will only take 2 minutes"

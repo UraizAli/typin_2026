@@ -5,6 +5,7 @@ import { Navbar } from "../components/layout/Navbar";
 import { Footer } from "../components/layout/Footer";
 import { GradientText } from "../components/ui/GradientText";
 import { GlassCard } from "../components/ui/GlassCard";
+import { AnimatedHeroBackground } from "../components/ui/AnimatedHeroBackground";
 import { staggerContainer, staggerItem } from "../lib/animations";
 
 const benefits = [
@@ -84,44 +85,19 @@ export default function Newsletter() {
     <div className="min-h-screen bg-[#FAFBFC] text-[#1F2937]">
       <Navbar />
       <main>
-        {/* Hero Section */}
-        <section className="relative overflow-hidden bg-gradient-to-br from-[#1F2937] via-[#111827] to-[#1F2937] px-6 py-24 lg:py-32 min-h-screen flex items-center">
-          {/* Decorative elements */}
-          <div className="pointer-events-none absolute left-[10%] top-[20%] h-[400px] w-[400px] rounded-full bg-[#4ADE80]/[0.08] blur-[120px]" />
-          <div className="pointer-events-none absolute bottom-[10%] right-[15%] h-[300px] w-[300px] rounded-full bg-[#34D399]/[0.06] blur-[120px]" />
-          
-          {/* Grid pattern overlay */}
-          <div
-            className="pointer-events-none absolute inset-0 opacity-[0.03]"
-            style={{
-              backgroundImage: "radial-gradient(rgba(255,255,255,0.5) 1px, transparent 1px)",
-              backgroundSize: "40px 40px",
-            }}
-          />
-
-          <div className="relative mx-auto max-w-4xl text-center">
-            <motion.div
-              initial={{ opacity: 0, y: 20, scale: 0.95 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
-            >
-              {/* Badge */}
-              <div className="mb-6 flex justify-center">
-                <span className="inline-flex items-center gap-2 rounded-full border border-[#4ADE80]/25 bg-[#4ADE80]/[0.08] px-5 py-2 text-xs font-semibold uppercase tracking-[0.15em] text-[#4ADE80] backdrop-blur-sm">
-                  <Mail className="h-4 w-4" />
-                  Newsletter
-                </span>
-              </div>
-
-              <h1 className="text-4xl font-extrabold leading-tight tracking-tight text-white md:text-5xl lg:text-6xl">
-                Stay <GradientText>Ahead of the Curve</GradientText>
-              </h1>
-              <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-white/70 md:text-xl">
-                Get the latest automation insights, tips, and exclusive offers delivered to your inbox every week. Join 500+ automation leaders.
-              </p>
-            </motion.div>
-          </div>
-        </section>
+        {/* Hero Section with Animated Background */}
+        <AnimatedHeroBackground
+          badge={{
+            icon: <Mail className="h-4 w-4" />,
+            text: "Newsletter",
+          }}
+          title={
+            <>
+              Stay <GradientText>Ahead of the Curve</GradientText>
+            </>
+          }
+          subtitle="Get the latest automation insights, tips, and exclusive offers delivered to your inbox every week. Join 500+ automation leaders."
+        />
 
         {/* Newsletter Content */}
         <section className="px-6 py-24 lg:py-32">

@@ -4,6 +4,7 @@ import { Navbar } from "../components/layout/Navbar";
 import { Footer } from "../components/layout/Footer";
 import { GradientText } from "../components/ui/GradientText";
 import { SectionHeading } from "../components/ui/SectionHeading";
+import { AnimatedHeroBackground } from "../components/ui/AnimatedHeroBackground";
 import { staggerContainer, staggerItem } from "../lib/animations";
 
 const ABOUT_IMAGE = "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&q=80";
@@ -125,44 +126,19 @@ export default function AboutPage() {
     <div className="min-h-screen bg-[#FAFBFC] text-[#1F2937]">
       <Navbar />
       <main>
-        {/* Hero Section */}
-        <section className="relative overflow-hidden bg-gradient-to-br from-[#1F2937] via-[#111827] to-[#1F2937] px-6 py-24 lg:py-32 min-h-screen flex items-center">
-          {/* Decorative elements */}
-          <div className="pointer-events-none absolute left-[10%] top-[20%] h-[400px] w-[400px] rounded-full bg-[#4ADE80]/[0.08] blur-[120px]" />
-          <div className="pointer-events-none absolute bottom-[10%] right-[15%] h-[300px] w-[300px] rounded-full bg-[#34D399]/[0.06] blur-[120px]" />
-          
-          {/* Grid pattern overlay */}
-          <div
-            className="pointer-events-none absolute inset-0 opacity-[0.03]"
-            style={{
-              backgroundImage: "radial-gradient(rgba(255,255,255,0.5) 1px, transparent 1px)",
-              backgroundSize: "40px 40px",
-            }}
-          />
-
-          <div className="relative mx-auto max-w-4xl text-center">
-            <motion.div
-              initial={{ opacity: 0, y: 20, scale: 0.95 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
-            >
-              {/* Badge */}
-              <div className="mb-6 flex justify-center">
-                <span className="inline-flex items-center gap-2 rounded-full border border-[#4ADE80]/25 bg-[#4ADE80]/[0.08] px-5 py-2 text-xs font-semibold uppercase tracking-[0.15em] text-[#4ADE80] backdrop-blur-sm">
-                  <Users className="h-4 w-4" />
-                  About Us
-                </span>
-              </div>
-
-              <h1 className="text-4xl font-extrabold leading-tight tracking-tight text-white md:text-5xl lg:text-6xl">
-                Your <GradientText>Technical Co-Founder</GradientText> for the AI Era
-              </h1>
-              <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-white/70 md:text-xl">
-                TYPIN is an AI-powered development agency that builds cutting-edge web and mobile applications. We help startups go from MVP to market leader with world-class engineering, stunning design, and strategic guidance.
-              </p>
-            </motion.div>
-          </div>
-        </section>
+        {/* Hero Section with Animated Background */}
+        <AnimatedHeroBackground
+          badge={{
+            icon: <Users className="h-4 w-4" />,
+            text: "About Us",
+          }}
+          title={
+            <>
+              Your <GradientText>Technical Co-Founder</GradientText> for the AI Era
+            </>
+          }
+          subtitle="TYPIN is an AI-powered development agency that builds cutting-edge web and mobile applications. We help startups go from MVP to market leader with world-class engineering, stunning design, and strategic guidance."
+        />
 
         {/* Story Section */}
         <section className="relative px-6 py-24 lg:py-32">

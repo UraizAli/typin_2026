@@ -5,6 +5,7 @@ import { Navbar } from "../components/layout/Navbar";
 import { Footer } from "../components/layout/Footer";
 import { GradientText } from "../components/ui/GradientText";
 import { GlassCard } from "../components/ui/GlassCard";
+import { AnimatedHeroBackground } from "../components/ui/AnimatedHeroBackground";
 import { fadeUp } from "../lib/animations";
 import jsPDF from "jspdf";
 
@@ -234,48 +235,131 @@ export default function ROICalculator() {
     <div className="min-h-screen bg-[#FAFBFC] text-[#1F2937]">
       <Navbar />
       <main>
-        {/* Hero Section */}
-        <section className="relative overflow-hidden bg-gradient-to-br from-[#1F2937] via-[#111827] to-[#1F2937] px-6 py-24 lg:py-32 min-h-screen flex items-center">
-          {/* Decorative elements */}
-          <div className="pointer-events-none absolute left-[10%] top-[20%] h-[400px] w-[400px] rounded-full bg-[#4ADE80]/[0.08] blur-[120px]" />
-          <div className="pointer-events-none absolute bottom-[10%] right-[15%] h-[300px] w-[300px] rounded-full bg-[#34D399]/[0.06] blur-[120px]" />
-          
-          {/* Grid pattern overlay */}
-          <div
-            className="pointer-events-none absolute inset-0 opacity-[0.03]"
-            style={{
-              backgroundImage: "radial-gradient(rgba(255,255,255,0.5) 1px, transparent 1px)",
-              backgroundSize: "40px 40px",
-            }}
-          />
-
-          <div className="relative mx-auto max-w-4xl text-center">
-            <motion.div
-              initial={{ opacity: 0, y: 20, scale: 0.95 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
-            >
-              {/* Badge */}
-              <div className="mb-6 flex justify-center">
-                <span className="inline-flex items-center gap-2 rounded-full border border-[#4ADE80]/25 bg-[#4ADE80]/[0.08] px-5 py-2 text-xs font-semibold uppercase tracking-[0.15em] text-[#4ADE80] backdrop-blur-sm">
-                  <Calculator className="h-4 w-4" />
-                  ROI Calculator
-                </span>
-              </div>
-
-              <h1 className="text-4xl font-extrabold leading-tight tracking-tight text-white md:text-5xl lg:text-6xl">
-                Calculate Your <GradientText>Automation ROI</GradientText>
-              </h1>
-              <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-white/70 md:text-xl">
-                See exactly how much time and money you'll save with AI automation. Most clients see 300%+ ROI in the first year.
-              </p>
-            </motion.div>
-          </div>
-        </section>
+        {/* Hero Section with Animated Background */}
+        <AnimatedHeroBackground
+          badge={{
+            icon: <Calculator className="h-4 w-4" />,
+            text: "ROI Calculator",
+          }}
+          title={
+            <>
+              Calculate Your <GradientText>Automation ROI</GradientText>
+            </>
+          }
+          subtitle="See exactly how much time and money you'll save with AI automation. Most clients see 300%+ ROI in the first year."
+        />
 
         {/* Calculator Section */}
-        <section className="px-6 py-24 lg:py-32">
-          <div className="mx-auto max-w-7xl">
+        <section className="relative px-6 py-24 lg:py-32 overflow-hidden">
+          {/* Attractive Grid Pattern Background */}
+          <div 
+            className="absolute inset-0 opacity-[0.08]" 
+            style={{
+              backgroundImage: `
+                linear-gradient(rgba(74,222,128,0.3) 2px, transparent 2px),
+                linear-gradient(90deg, rgba(74,222,128,0.3) 2px, transparent 2px),
+                linear-gradient(rgba(52,211,153,0.2) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(52,211,153,0.2) 1px, transparent 1px)
+              `,
+              backgroundSize: "100px 100px, 100px 100px, 20px 20px, 20px 20px"
+            }} 
+          />
+          
+          {/* Large Decorative Background Elements */}
+          <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
+            {/* Top Left - Large Dollar Sign with Glow */}
+            <div className="absolute top-10 left-10 text-[#4ADE80] opacity-[0.12] text-[200px] font-bold leading-none" style={{
+              textShadow: "0 0 80px rgba(74,222,128,0.3)"
+            }}>
+              $
+            </div>
+            
+            {/* Top Right - Percentage with Glow */}
+            <div className="absolute top-20 right-20 text-[#34D399] opacity-[0.12] text-[180px] font-bold leading-none" style={{
+              textShadow: "0 0 80px rgba(52,211,153,0.3)"
+            }}>
+              %
+            </div>
+            
+            {/* Bottom Left - Large Chart/Graph */}
+            <svg className="absolute bottom-10 left-10 w-[400px] h-[300px] opacity-[0.1]" viewBox="0 0 400 300">
+              <defs>
+                <linearGradient id="chartGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stopColor="#4ADE80" stopOpacity="0.3"/>
+                  <stop offset="100%" stopColor="#4ADE80" stopOpacity="0"/>
+                </linearGradient>
+              </defs>
+              <polyline points="20,250 80,180 140,200 200,120 260,140 320,80 380,100" 
+                fill="none" stroke="#4ADE80" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"/>
+              <polygon points="20,250 80,180 140,200 200,120 260,140 320,80 380,100 380,280 20,280" 
+                fill="url(#chartGradient)"/>
+              <circle cx="20" cy="250" r="8" fill="#4ADE80" filter="drop-shadow(0 0 10px rgba(74,222,128,0.8))"/>
+              <circle cx="80" cy="180" r="8" fill="#4ADE80" filter="drop-shadow(0 0 10px rgba(74,222,128,0.8))"/>
+              <circle cx="140" cy="200" r="8" fill="#4ADE80" filter="drop-shadow(0 0 10px rgba(74,222,128,0.8))"/>
+              <circle cx="200" cy="120" r="8" fill="#4ADE80" filter="drop-shadow(0 0 10px rgba(74,222,128,0.8))"/>
+              <circle cx="260" cy="140" r="8" fill="#4ADE80" filter="drop-shadow(0 0 10px rgba(74,222,128,0.8))"/>
+              <circle cx="320" cy="80" r="8" fill="#4ADE80" filter="drop-shadow(0 0 10px rgba(74,222,128,0.8))"/>
+              <circle cx="380" cy="100" r="8" fill="#4ADE80" filter="drop-shadow(0 0 10px rgba(74,222,128,0.8))"/>
+            </svg>
+            
+            {/* Bottom Right - Large Calculator */}
+            <svg className="absolute bottom-20 right-20 w-[280px] h-[350px] opacity-[0.08]" viewBox="0 0 100 120">
+              <defs>
+                <filter id="glow">
+                  <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+                  <feMerge>
+                    <feMergeNode in="coloredBlur"/>
+                    <feMergeNode in="SourceGraphic"/>
+                  </feMerge>
+                </filter>
+              </defs>
+              <rect x="15" y="10" width="70" height="100" rx="8" fill="none" stroke="#4ADE80" strokeWidth="3" filter="url(#glow)"/>
+              <rect x="22" y="18" width="56" height="20" rx="4" fill="#4ADE80" opacity="0.4"/>
+              <rect x="22" y="45" width="12" height="12" rx="2" fill="#4ADE80" opacity="0.6"/>
+              <rect x="38" y="45" width="12" height="12" rx="2" fill="#4ADE80" opacity="0.6"/>
+              <rect x="54" y="45" width="12" height="12" rx="2" fill="#4ADE80" opacity="0.6"/>
+              <rect x="70" y="45" width="12" height="12" rx="2" fill="#34D399" opacity="0.6"/>
+              <rect x="22" y="62" width="12" height="12" rx="2" fill="#4ADE80" opacity="0.6"/>
+              <rect x="38" y="62" width="12" height="12" rx="2" fill="#4ADE80" opacity="0.6"/>
+              <rect x="54" y="62" width="12" height="12" rx="2" fill="#4ADE80" opacity="0.6"/>
+              <rect x="70" y="62" width="12" height="12" rx="2" fill="#34D399" opacity="0.6"/>
+              <rect x="22" y="79" width="12" height="12" rx="2" fill="#4ADE80" opacity="0.6"/>
+              <rect x="38" y="79" width="12" height="12" rx="2" fill="#4ADE80" opacity="0.6"/>
+              <rect x="54" y="79" width="12" height="12" rx="2" fill="#4ADE80" opacity="0.6"/>
+              <rect x="70" y="79" width="12" height="29" rx="2" fill="#10B981" opacity="0.7"/>
+            </svg>
+            
+            {/* Center - ROI Text */}
+            <div className="absolute top-1/2 right-1/4 transform -translate-y-1/2 text-[#4ADE80] opacity-[0.06] text-[160px] font-black leading-none tracking-tighter" style={{
+              textShadow: "0 0 100px rgba(74,222,128,0.4)"
+            }}>
+              ROI
+            </div>
+          </div>
+          
+          {/* Large Animated Gradient Orbs */}
+          <motion.div
+            animate={{
+              x: [0, 50, 0],
+              y: [0, -30, 0],
+              scale: [1, 1.1, 1],
+              opacity: [0.08, 0.12, 0.08]
+            }}
+            transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute top-0 left-0 w-[600px] h-[600px] bg-gradient-to-br from-[#4ADE80] via-[#34D399] to-transparent rounded-full blur-3xl"
+          />
+          <motion.div
+            animate={{
+              x: [0, -50, 0],
+              y: [0, 30, 0],
+              scale: [1, 1.15, 1],
+              opacity: [0.08, 0.12, 0.08]
+            }}
+            transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+            className="absolute bottom-0 right-0 w-[700px] h-[700px] bg-gradient-to-tl from-[#34D399] via-[#10B981] to-transparent rounded-full blur-3xl"
+          />
+          
+          <div className="mx-auto max-w-7xl relative z-10">
             <div className="grid gap-12 lg:grid-cols-2">
               {/* Calculator Inputs */}
               <motion.div
@@ -409,7 +493,7 @@ export default function ROICalculator() {
                     <div>
                       <div className="flex items-center justify-between mb-2">
                         <label className="text-sm font-medium text-[#374151]">
-                          Ongoing Monthly Cost (SaaS/Maintenance)
+                          Ongoing Monthly Cost (SaaS)
                         </label>
                         <input
                           type="number"
