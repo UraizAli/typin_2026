@@ -250,7 +250,7 @@ export function CaseStudyModal({ isOpen, onClose, caseStudy }: CaseStudyModalPro
                             background: `linear-gradient(135deg, ${caseStudy.color} 0%, ${caseStudy.color}DD 100%)`,
                           }}
                         >
-                          Get Similar Results
+                          Book a strategy call
                           <ArrowRight className="h-4 w-4" />
                         </a>
                       </div>
