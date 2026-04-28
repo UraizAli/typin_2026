@@ -243,7 +243,7 @@ export function CaseStudyModal({ isOpen, onClose, caseStudy }: CaseStudyModalPro
                       {/* CTA */}
                       <div className="pt-6 border-t border-[#E2E8F0]">
                         <a
-                          href="#contact"
+                          href="/contact"
                           onClick={onClose}
                           className="inline-flex items-center gap-2 rounded-full px-6 py-3 font-semibold text-white transition-all hover:gap-3 shadow-lg hover:shadow-xl"
                           style={{

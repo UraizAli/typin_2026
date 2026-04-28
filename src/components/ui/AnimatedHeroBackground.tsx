@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { ReactNode } from "react";
 
 interface AnimatedHeroBackgroundProps {
-  children: ReactNode;
+  children?: ReactNode;
   badge?: {
     icon: ReactNode;
     text: string;
