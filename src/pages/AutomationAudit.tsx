@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { CheckCircle, AlertCircle, ClipboardCheck, ArrowLeft, Mail, TrendingUp, DollarSign } from "lucide-react";
+import { CheckCircle, AlertCircle, ClipboardCheck, ArrowLeft, ArrowRight, Mail, TrendingUp, DollarSign } from "lucide-react";
 import { Navbar } from "../components/layout/Navbar";
 import { Footer } from "../components/layout/Footer";
 import { GradientText } from "../components/ui/GradientText";
 import { GlassCard } from "../components/ui/GlassCard";
+import { AnimatedHeroBackground } from "../components/ui/AnimatedHeroBackground";
 
 const auditQuestions = [
   {
@@ -108,6 +109,9 @@ export default function AutomationAudit() {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [scores, setScores] = useState<number[]>([]);
   const [showResults, setShowResults] = useState(false);
+  const [showContactForm, setShowContactForm] = useState(false);
+  const [contactInfo, setContactInfo] = useState({ email: "", phone: "" });
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [email, setEmail] = useState("");
   const [emailSubmitted, setEmailSubmitted] = useState(false);
 
@@ -118,8 +122,40 @@ export default function AutomationAudit() {
     if (currentQuestion < auditQuestions.length - 1) {
       setCurrentQuestion(currentQuestion + 1);
     } else {
-      setShowResults(true);
+      setShowContactForm(true);
     }
+  };
+
+  const handleContactSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!contactInfo.email || !contactInfo.phone) return;
+    
+    setIsSubmitting(true);
+    
+    const totalScore = scores.reduce((a, b) => a + b, 0);
+    const maxScore = auditQuestions.length * 5;
+    const percentage = (totalScore / maxScore) * 100;
+    
+    try {
+      await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: contactInfo.email.split("@")[0],
+          email: contactInfo.email,
+          phone: contactInfo.phone,
+          company: "",
+          message: `Automation Audit Results Request - Score: ${Math.round(percentage)}%`,
+          source: "Automation Audit",
+        }),
+      });
+    } catch (error) {
+      console.error("Failed to submit contact info:", error);
+    }
+    
+    setIsSubmitting(false);
+    setShowContactForm(false);
+    setShowResults(true);
   };
 
   const goBack = () => {
@@ -262,8 +298,148 @@ export default function AutomationAudit() {
       <div className="min-h-screen bg-[#FAFBFC] text-[#1F2937]">
         <Navbar />
         <main className="pt-24">
-          <section className="px-6 py-24 lg:py-32">
-            <div className="mx-auto max-w-4xl">
+          <section className="relative px-6 py-24 lg:py-32 overflow-hidden">
+            {/* Attractive Circuit Pattern Background */}
+            <div 
+              className="absolute inset-0 opacity-[0.08]" 
+              style={{
+                backgroundImage: `
+                  radial-gradient(circle at 25% 25%, rgba(74,222,128,0.15) 2px, transparent 2px),
+                  radial-gradient(circle at 75% 75%, rgba(52,211,153,0.15) 2px, transparent 2px),
+                  linear-gradient(rgba(74,222,128,0.05) 1px, transparent 1px),
+                  linear-gradient(90deg, rgba(74,222,128,0.05) 1px, transparent 1px)
+                `,
+                backgroundSize: "50px 50px, 50px 50px, 25px 25px, 25px 25px",
+                backgroundPosition: "0 0, 25px 25px, 0 0, 0 0"
+              }} 
+            />
+            
+            {/* Large Decorative Background Elements */}
+            <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
+              {/* Top Left - Clipboard with Checkmarks */}
+              <svg className="absolute top-10 left-10 w-[280px] h-[350px] opacity-[0.12]" viewBox="0 0 100 120">
+                <defs>
+                  <linearGradient id="clipboardGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stopColor="#4ADE80" stopOpacity="0.6"/>
+                    <stop offset="100%" stopColor="#34D399" stopOpacity="0.6"/>
+                  </linearGradient>
+                  <filter id="clipboardGlow">
+                    <feGaussianBlur stdDeviation="2"/>
+                    <feMerge>
+                      <feMergeNode/>
+                      <feMergeNode in="SourceGraphic"/>
+                    </feMerge>
+                  </filter>
+                </defs>
+                <rect x="20" y="15" width="60" height="90" rx="8" fill="url(#clipboardGradient)" stroke="#4ADE80" strokeWidth="3" filter="url(#clipboardGlow)"/>
+                <rect x="35" y="8" width="30" height="12" rx="4" fill="url(#clipboardGradient)" stroke="#4ADE80" strokeWidth="2"/>
+                <path d="M30,35 L40,45 L55,30" fill="none" stroke="#fff" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M30,55 L40,65 L55,50" fill="none" stroke="#fff" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M30,75 L40,85 L55,70" fill="none" stroke="#fff" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+              
+              {/* Top Right - Large Percentage Gauge */}
+              <svg className="absolute top-20 right-20 w-[350px] h-[350px] opacity-[0.1]" viewBox="0 0 100 100">
+                <defs>
+                  <linearGradient id="gaugeGradient2" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="#DC2626" stopOpacity="0.8"/>
+                    <stop offset="30%" stopColor="#F59E0B" stopOpacity="0.8"/>
+                    <stop offset="70%" stopColor="#34D399" stopOpacity="0.8"/>
+                    <stop offset="100%" stopColor="#4ADE80" stopOpacity="0.8"/>
+                  </linearGradient>
+                  <radialGradient id="gaugeGlow2">
+                    <stop offset="0%" stopColor="#4ADE80" stopOpacity="0.4"/>
+                    <stop offset="100%" stopColor="#4ADE80" stopOpacity="0"/>
+                  </radialGradient>
+                </defs>
+                <circle cx="50" cy="50" r="45" fill="url(#gaugeGlow2)"/>
+                <path d="M10,70 A40,40 0 1,1 90,70" fill="none" stroke="url(#gaugeGradient2)" strokeWidth="10" strokeLinecap="round"/>
+                <circle cx="50" cy="70" r="8" fill="#4ADE80" filter="drop-shadow(0 0 15px rgba(74,222,128,0.8))"/>
+                <line x1="50" y1="70" x2="75" y2="40" stroke="#4ADE80" strokeWidth="4" strokeLinecap="round" 
+                  filter="drop-shadow(0 0 10px rgba(74,222,128,0.6))"/>
+                <text x="10" y="88" fill="#DC2626" fontSize="10" fontWeight="bold">0%</text>
+                <text x="80" y="88" fill="#4ADE80" fontSize="10" fontWeight="bold">100%</text>
+              </svg>
+              
+              {/* Middle Left - Bar Chart */}
+              <svg className="absolute top-1/3 left-20 w-[280px] h-[250px] opacity-[0.12]" viewBox="0 0 100 100">
+                <defs>
+                  <linearGradient id="barGradient1" x1="0%" y1="100%" x2="0%" y2="0%">
+                    <stop offset="0%" stopColor="#4ADE80" stopOpacity="0.4"/>
+                    <stop offset="100%" stopColor="#4ADE80" stopOpacity="0.8"/>
+                  </linearGradient>
+                  <linearGradient id="barGradient2" x1="0%" y1="100%" x2="0%" y2="0%">
+                    <stop offset="0%" stopColor="#34D399" stopOpacity="0.4"/>
+                    <stop offset="100%" stopColor="#34D399" stopOpacity="0.8"/>
+                  </linearGradient>
+                </defs>
+                <rect x="10" y="60" width="15" height="35" rx="3" fill="url(#barGradient1)" stroke="#4ADE80" strokeWidth="2"/>
+                <rect x="30" y="40" width="15" height="55" rx="3" fill="url(#barGradient2)" stroke="#34D399" strokeWidth="2"/>
+                <rect x="50" y="25" width="15" height="70" rx="3" fill="url(#barGradient1)" stroke="#4ADE80" strokeWidth="2"/>
+                <rect x="70" y="45" width="15" height="50" rx="3" fill="url(#barGradient2)" stroke="#34D399" strokeWidth="2"/>
+              </svg>
+              
+              {/* Bottom Right - Score Badge */}
+              <svg className="absolute bottom-10 right-10 w-[320px] h-[320px] opacity-[0.1]" viewBox="0 0 100 100">
+                <defs>
+                  <radialGradient id="badgeGlow2">
+                    <stop offset="0%" stopColor="#4ADE80" stopOpacity="0.8"/>
+                    <stop offset="100%" stopColor="#4ADE80" stopOpacity="0"/>
+                  </radialGradient>
+                </defs>
+                <circle cx="50" cy="50" r="45" fill="url(#badgeGlow2)"/>
+                <circle cx="50" cy="50" r="38" fill="#4ADE80" opacity="0.6" filter="drop-shadow(0 0 20px rgba(74,222,128,0.6))"/>
+                <text x="50" y="60" textAnchor="middle" fill="#fff" fontSize="35" fontWeight="black">A+</text>
+              </svg>
+              
+              {/* Center - Large Percentage */}
+              <div className="absolute top-1/2 left-1/3 transform -translate-y-1/2 text-[#4ADE80] opacity-[0.08] text-[200px] font-black leading-none" style={{
+                textShadow: "0 0 100px rgba(74,222,128,0.4)"
+              }}>
+                %
+              </div>
+              
+              {/* Bottom Left - Trend Arrow */}
+              <svg className="absolute bottom-20 left-10 w-[250px] h-[200px] opacity-[0.12]" viewBox="0 0 100 80">
+                <defs>
+                  <linearGradient id="arrowGradient2" x1="0%" y1="100%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="#34D399" stopOpacity="0.6"/>
+                    <stop offset="100%" stopColor="#4ADE80" stopOpacity="0.8"/>
+                  </linearGradient>
+                </defs>
+                <path d="M10,70 L30,50 L50,55 L70,30 L90,20" fill="none" stroke="url(#arrowGradient2)" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round"/>
+                <polygon points="90,20 80,15 85,25" fill="#4ADE80" opacity="0.8"/>
+                <circle cx="10" cy="70" r="4" fill="#34D399"/>
+                <circle cx="30" cy="50" r="4" fill="#34D399"/>
+                <circle cx="50" cy="55" r="4" fill="#34D399"/>
+                <circle cx="70" cy="30" r="4" fill="#4ADE80"/>
+                <circle cx="90" cy="20" r="4" fill="#4ADE80"/>
+              </svg>
+            </div>
+            
+            {/* Large Animated Gradient Orbs */}
+            <motion.div
+              animate={{
+                x: [0, 80, 0],
+                y: [0, -40, 0],
+                scale: [1, 1.25, 1],
+                opacity: [0.12, 0.18, 0.12]
+              }}
+              transition={{ duration: 16, repeat: Infinity, ease: "easeInOut" }}
+              className="absolute top-0 left-0 w-[750px] h-[750px] bg-gradient-to-br from-[#4ADE80] via-[#34D399] to-transparent rounded-full blur-3xl"
+            />
+            <motion.div
+              animate={{
+                x: [0, -80, 0],
+                y: [0, 40, 0],
+                scale: [1, 1.3, 1],
+                opacity: [0.12, 0.18, 0.12]
+              }}
+              transition={{ duration: 18, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+              className="absolute bottom-0 right-0 w-[800px] h-[800px] bg-gradient-to-tl from-[#34D399] via-[#10B981] to-transparent rounded-full blur-3xl"
+            />
+            
+            <div className="mx-auto max-w-4xl relative z-10">
               <motion.div
                 initial={{ opacity: 0, y: 40 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -534,6 +710,8 @@ export default function AutomationAudit() {
                     setCurrentQuestion(0);
                     setScores([]);
                     setShowResults(false);
+                    setShowContactForm(false);
+                    setContactInfo({ email: "", phone: "" });
                     setEmailSubmitted(false);
                     setEmail("");
                   }}
@@ -553,52 +731,313 @@ export default function AutomationAudit() {
   const progress = ((currentQuestion + 1) / auditQuestions.length) * 100;
   const currentQ = auditQuestions[currentQuestion];
 
+  // Contact Form Screen
+  if (showContactForm) {
+    return (
+      <div className="min-h-screen bg-[#FAFBFC] text-[#1F2937]">
+        <Navbar />
+        <main className="pt-24">
+          <section className="relative px-6 py-24 lg:py-32 overflow-hidden">
+            {/* Background Pattern */}
+            <div 
+              className="absolute inset-0 opacity-[0.06]" 
+              style={{
+                backgroundImage: `
+                  repeating-linear-gradient(
+                    45deg,
+                    rgba(74,222,128,0.1),
+                    rgba(74,222,128,0.1) 10px,
+                    transparent 10px,
+                    transparent 20px
+                  ),
+                  repeating-linear-gradient(
+                    -45deg,
+                    rgba(52,211,153,0.08),
+                    rgba(52,211,153,0.08) 10px,
+                    transparent 10px,
+                    transparent 20px
+                  )
+                `
+              }} 
+            />
+            
+            {/* Animated Gradient Orbs */}
+            <motion.div
+              animate={{
+                x: [0, 60, 0],
+                y: [0, -35, 0],
+                scale: [1, 1.2, 1],
+                opacity: [0.1, 0.16, 0.1]
+              }}
+              transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
+              className="absolute top-0 left-0 w-[680px] h-[680px] bg-gradient-to-br from-[#4ADE80] via-[#34D399] to-transparent rounded-full blur-3xl"
+            />
+            <motion.div
+              animate={{
+                x: [0, -60, 0],
+                y: [0, 35, 0],
+                scale: [1, 1.25, 1],
+                opacity: [0.1, 0.16, 0.1]
+              }}
+              transition={{ duration: 16, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+              className="absolute bottom-0 right-0 w-[720px] h-[720px] bg-gradient-to-tl from-[#34D399] via-[#10B981] to-transparent rounded-full blur-3xl"
+            />
+            
+            <div className="mx-auto max-w-2xl relative z-10">
+              <motion.div
+                initial={{ opacity: 0, y: 40 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="text-center mb-12"
+              >
+                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[#4ADE80]/10 mb-6">
+                  <ClipboardCheck className="h-8 w-8 text-[#16A34A]" />
+                </div>
+                <h1 className="text-3xl font-bold text-[#111827] mb-4">
+                  Get Your Automation Audit Results
+                </h1>
+                <p className="text-lg text-[#6B7280]">
+                  Enter your contact information to receive your personalized audit report and recommendations.
+                </p>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, y: 40 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 }}
+                className="rounded-3xl border border-[#E5E7EB] bg-white p-8 shadow-lg"
+              >
+                <form onSubmit={handleContactSubmit} className="space-y-6">
+                  <div>
+                    <label htmlFor="email" className="block text-sm font-semibold text-[#111827] mb-2">
+                      Email Address *
+                    </label>
+                    <input
+                      type="email"
+                      id="email"
+                      required
+                      value={contactInfo.email}
+                      onChange={(e) => setContactInfo({ ...contactInfo, email: e.target.value })}
+                      placeholder="your@email.com"
+                      className="w-full rounded-lg border-2 border-[#E5E7EB] px-4 py-3 text-[#111827] focus:border-[#4ADE80] focus:outline-none transition-colors"
+                    />
+                  </div>
+
+                  <div>
+                    <label htmlFor="phone" className="block text-sm font-semibold text-[#111827] mb-2">
+                      Phone Number *
+                    </label>
+                    <input
+                      type="tel"
+                      id="phone"
+                      required
+                      value={contactInfo.phone}
+                      onChange={(e) => setContactInfo({ ...contactInfo, phone: e.target.value })}
+                      placeholder="+1 (555) 000-0000"
+                      className="w-full rounded-lg border-2 border-[#E5E7EB] px-4 py-3 text-[#111827] focus:border-[#4ADE80] focus:outline-none transition-colors"
+                    />
+                  </div>
+
+                  <div className="p-4 bg-[#F0FDF4] border border-[#4ADE80]/20 rounded-xl">
+                    <div className="flex items-start gap-3">
+                      <CheckCircle className="h-5 w-5 text-[#16A34A] shrink-0 mt-0.5" />
+                      <div className="text-sm text-[#6B7280]">
+                        <p className="font-semibold text-[#111827] mb-1">What you'll receive:</p>
+                        <ul className="space-y-1">
+                          <li>• Detailed automation audit score and breakdown</li>
+                          <li>• Personalized recommendations for your business</li>
+                          <li>• Estimated time and cost savings</li>
+                          <li>• Priority action items to implement first</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex gap-4">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setShowContactForm(false);
+                        setCurrentQuestion(auditQuestions.length - 1);
+                      }}
+                      className="flex-1 rounded-full border-2 border-[#E5E7EB] py-3 font-semibold text-[#111827] transition-all hover:border-[#4ADE80]"
+                    >
+                      <ArrowLeft className="h-4 w-4 inline mr-2" />
+                      Back
+                    </button>
+                    <button
+                      type="submit"
+                      disabled={isSubmitting || !contactInfo.email || !contactInfo.phone}
+                      className="flex-1 rounded-full bg-[#4ADE80] py-3 font-semibold text-[#111827] shadow-[0_4px_30px_rgba(74,222,128,0.35)] transition-all hover:bg-[#34D399] disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      {isSubmitting ? "Submitting..." : "View My Audit Results"}
+                      <ArrowRight className="h-4 w-4 inline ml-2" />
+                    </button>
+                  </div>
+                </form>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.4 }}
+                className="text-center mt-6"
+              >
+                <p className="text-sm text-[#6B7280]">
+                  🔒 Your information is secure and will never be shared with third parties.
+                </p>
+              </motion.div>
+            </div>
+          </section>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-[#FAFBFC] text-[#1F2937]">
       <Navbar />
       <main>
-        {/* Hero Section */}
-        <section className="relative overflow-hidden bg-gradient-to-br from-[#1F2937] via-[#111827] to-[#1F2937] px-6 py-24 lg:py-32 min-h-screen flex items-center">
-          {/* Decorative elements */}
-          <div className="pointer-events-none absolute left-[10%] top-[20%] h-[400px] w-[400px] rounded-full bg-[#4ADE80]/[0.08] blur-[120px]" />
-          <div className="pointer-events-none absolute bottom-[10%] right-[15%] h-[300px] w-[300px] rounded-full bg-[#34D399]/[0.06] blur-[120px]" />
-          
-          {/* Grid pattern overlay */}
-          <div
-            className="pointer-events-none absolute inset-0 opacity-[0.03]"
-            style={{
-              backgroundImage: "radial-gradient(rgba(255,255,255,0.5) 1px, transparent 1px)",
-              backgroundSize: "40px 40px",
-            }}
-          />
-
-          <div className="relative mx-auto max-w-4xl text-center">
-            <motion.div
-              initial={{ opacity: 0, y: 20, scale: 0.95 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
-            >
-              {/* Badge */}
-              <div className="mb-6 flex justify-center">
-                <span className="inline-flex items-center gap-2 rounded-full border border-[#4ADE80]/25 bg-[#4ADE80]/[0.08] px-5 py-2 text-xs font-semibold uppercase tracking-[0.15em] text-[#4ADE80] backdrop-blur-sm">
-                  <ClipboardCheck className="h-4 w-4" />
-                  Free Audit
-                </span>
-              </div>
-
-              <h1 className="text-4xl font-extrabold leading-tight tracking-tight text-white md:text-5xl lg:text-6xl">
-                Discover Your <GradientText>Automation Potential</GradientText>
-              </h1>
-              <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-white/70 md:text-xl">
-                Take our 3-minute audit to uncover hidden opportunities for automation in your business. Get a personalized score and actionable recommendations.
-              </p>
-            </motion.div>
-          </div>
-        </section>
+        {/* Hero Section with Animated Background */}
+        <AnimatedHeroBackground
+          badge={{
+            icon: <ClipboardCheck className="h-4 w-4" />,
+            text: "Free Audit",
+          }}
+          title={
+            <>
+              Discover Your <GradientText>Automation Potential</GradientText>
+            </>
+          }
+          subtitle="Take our 3-minute audit to uncover hidden opportunities for automation in your business. Get a personalized score and actionable recommendations."
+        >
+          <></>
+        </AnimatedHeroBackground>
 
         {/* Quiz Section */}
-        <section className="px-6 py-24 lg:py-32">
-          <div className="mx-auto max-w-2xl">
+        <section className="relative px-6 py-24 lg:py-32 overflow-hidden">
+          {/* Attractive Diagonal Stripe Pattern */}
+          <div 
+            className="absolute inset-0 opacity-[0.06]" 
+            style={{
+              backgroundImage: `
+                repeating-linear-gradient(
+                  45deg,
+                  rgba(74,222,128,0.1),
+                  rgba(74,222,128,0.1) 10px,
+                  transparent 10px,
+                  transparent 20px
+                ),
+                repeating-linear-gradient(
+                  -45deg,
+                  rgba(52,211,153,0.08),
+                  rgba(52,211,153,0.08) 10px,
+                  transparent 10px,
+                  transparent 20px
+                )
+              `
+            }} 
+          />
+          
+          {/* Large Decorative Background Elements */}
+          <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
+            {/* Top Left - Question Mark in Circle */}
+            <svg className="absolute top-10 left-10 w-[280px] h-[280px] opacity-[0.12]" viewBox="0 0 100 100">
+              <defs>
+                <radialGradient id="questionGlow">
+                  <stop offset="0%" stopColor="#4ADE80" stopOpacity="0.6"/>
+                  <stop offset="100%" stopColor="#4ADE80" stopOpacity="0"/>
+                </radialGradient>
+              </defs>
+              <circle cx="50" cy="50" r="45" fill="url(#questionGlow)"/>
+              <circle cx="50" cy="50" r="40" fill="none" stroke="#4ADE80" strokeWidth="4" filter="drop-shadow(0 0 15px rgba(74,222,128,0.6))"/>
+              <text x="50" y="65" textAnchor="middle" fill="#4ADE80" fontSize="50" fontWeight="bold" filter="drop-shadow(0 0 10px rgba(74,222,128,0.6))">?</text>
+            </svg>
+            
+            {/* Top Right - Progress Circles */}
+            <svg className="absolute top-20 right-20 w-[300px] h-[300px] opacity-[0.1]" viewBox="0 0 100 100">
+              <defs>
+                <linearGradient id="progressGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="#4ADE80"/>
+                  <stop offset="100%" stopColor="#34D399"/>
+                </linearGradient>
+              </defs>
+              <circle cx="50" cy="50" r="40" fill="none" stroke="#E5E7EB" strokeWidth="8" opacity="0.3"/>
+              <circle cx="50" cy="50" r="40" fill="none" stroke="url(#progressGradient)" strokeWidth="8" 
+                strokeDasharray="188.4" strokeDashoffset="47.1" strokeLinecap="round" 
+                filter="drop-shadow(0 0 15px rgba(74,222,128,0.6))"/>
+              <text x="50" y="58" textAnchor="middle" fill="#4ADE80" fontSize="20" fontWeight="bold">75%</text>
+            </svg>
+            
+            {/* Middle Left - Checklist */}
+            <svg className="absolute top-1/3 left-20 w-[240px] h-[280px] opacity-[0.12]" viewBox="0 0 100 120">
+              <defs>
+                <linearGradient id="checklistGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stopColor="#4ADE80" stopOpacity="0.5"/>
+                  <stop offset="100%" stopColor="#34D399" stopOpacity="0.5"/>
+                </linearGradient>
+              </defs>
+              <rect x="20" y="10" width="60" height="100" rx="6" fill="url(#checklistGradient)" stroke="#4ADE80" strokeWidth="2"/>
+              <circle cx="30" cy="30" r="5" fill="#4ADE80"/>
+              <line x1="40" y1="30" x2="70" y2="30" stroke="#4ADE80" strokeWidth="2" strokeLinecap="round"/>
+              <circle cx="30" cy="50" r="5" fill="#4ADE80"/>
+              <line x1="40" y1="50" x2="70" y2="50" stroke="#4ADE80" strokeWidth="2" strokeLinecap="round"/>
+              <circle cx="30" cy="70" r="5" fill="#4ADE80"/>
+              <line x1="40" y1="70" x2="70" y2="70" stroke="#4ADE80" strokeWidth="2" strokeLinecap="round"/>
+              <circle cx="30" cy="90" r="5" fill="#4ADE80"/>
+              <line x1="40" y1="90" x2="70" y2="90" stroke="#4ADE80" strokeWidth="2" strokeLinecap="round"/>
+            </svg>
+            
+            {/* Bottom Right - Analytics Dashboard */}
+            <svg className="absolute bottom-10 right-10 w-[350px] h-[280px] opacity-[0.1]" viewBox="0 0 120 100">
+              <defs>
+                <linearGradient id="dashGradient1" x1="0%" y1="100%" x2="0%" y2="0%">
+                  <stop offset="0%" stopColor="#4ADE80" stopOpacity="0.4"/>
+                  <stop offset="100%" stopColor="#4ADE80" stopOpacity="0.8"/>
+                </linearGradient>
+                <linearGradient id="dashGradient2" x1="0%" y1="100%" x2="0%" y2="0%">
+                  <stop offset="0%" stopColor="#34D399" stopOpacity="0.4"/>
+                  <stop offset="100%" stopColor="#34D399" stopOpacity="0.8"/>
+                </linearGradient>
+              </defs>
+              <rect x="10" y="10" width="100" height="80" rx="5" fill="none" stroke="#4ADE80" strokeWidth="2"/>
+              <rect x="20" y="60" width="12" height="20" rx="2" fill="url(#dashGradient1)"/>
+              <rect x="38" y="45" width="12" height="35" rx="2" fill="url(#dashGradient2)"/>
+              <rect x="56" y="30" width="12" height="50" rx="2" fill="url(#dashGradient1)"/>
+              <rect x="74" y="50" width="12" height="30" rx="2" fill="url(#dashGradient2)"/>
+            </svg>
+            
+            {/* Center - Large Number */}
+            <div className="absolute top-1/2 right-1/4 transform -translate-y-1/2 text-[#4ADE80] opacity-[0.08] text-[180px] font-black leading-none" style={{
+              textShadow: "0 0 100px rgba(74,222,128,0.4)"
+            }}>
+              8
+            </div>
+          </div>
+          
+          {/* Large Animated Gradient Orbs */}
+          <motion.div
+            animate={{
+              x: [0, 60, 0],
+              y: [0, -35, 0],
+              scale: [1, 1.2, 1],
+              opacity: [0.1, 0.16, 0.1]
+            }}
+            transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute top-0 left-0 w-[680px] h-[680px] bg-gradient-to-br from-[#4ADE80] via-[#34D399] to-transparent rounded-full blur-3xl"
+          />
+          <motion.div
+            animate={{
+              x: [0, -60, 0],
+              y: [0, 35, 0],
+              scale: [1, 1.25, 1],
+              opacity: [0.1, 0.16, 0.1]
+            }}
+            transition={{ duration: 16, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+            className="absolute bottom-0 right-0 w-[720px] h-[720px] bg-gradient-to-tl from-[#34D399] via-[#10B981] to-transparent rounded-full blur-3xl"
+          />
+          
+          <div className="mx-auto max-w-2xl relative z-10">
             <GlassCard className="p-8">
               {/* Progress Bar */}
               <div className="mb-8">
