@@ -883,11 +883,11 @@ export default function ServiceSelector() {
               </AnimatePresence>
 
               {/* Navigation */}
-              <div className="flex gap-4">
+              <div className="flex items-center justify-between gap-4">
                 <button
                   onClick={prevQuestion}
                   disabled={currentQuestion === 0}
-                  className="flex-1 rounded-full border-2 border-[#E5E7EB] py-3 font-semibold text-[#111827] transition-all hover:border-[#4ADE80] disabled:opacity-50"
+                  className="group inline-flex items-center gap-2 rounded-full border border-white/70 bg-white px-8 py-4 text-[15px] font-bold text-[#111827] shadow-[0_4px_24px_rgba(15,23,42,0.18)] backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:bg-white hover:shadow-[0_8px_50px_rgba(255,255,255,0.35)]"
                 >
                   <ArrowLeft className="h-4 w-4 inline mr-2" />
                   Back
@@ -895,7 +895,7 @@ export default function ServiceSelector() {
                 <button
                   onClick={nextQuestion}
                   disabled={!answered}
-                  className="flex-1 rounded-full bg-[#4ADE80] py-3 font-semibold text-[#111827] shadow-[0_4px_30px_rgba(74,222,128,0.35)] transition-all hover:bg-[#34D399] disabled:opacity-50"
+                   className="group inline-flex items-center gap-2 rounded-full bg-[#4ADE80] px-8 py-4 text-[15px] font-bold text-[#111827] shadow-[0_4px_30px_rgba(74,222,128,0.35)] transition-all duration-300 hover:-translate-y-1 hover:bg-[#34D399] hover:shadow-[0_8px_50px_rgba(74,222,128,0.5)]"
                 >
                   {currentQuestion === questions.length - 1 ? "See Results" : "Next"}
                   <ArrowRight className="h-4 w-4 inline ml-2" />

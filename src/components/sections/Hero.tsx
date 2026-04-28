@@ -127,7 +127,7 @@ export function Hero() {
           </AppLink>
           <AppLink
             href="#about"
-            className="group inline-flex items-center gap-2 rounded-full bg-white/10 px-8 py-4 text-[15px] font-bold text-white shadow-[0_4px_24px_rgba(15,23,42,0.18)] backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:bg-[#34D399]/18 hover:shadow-[0_8px_40px_rgba(74,222,128,0.22)]"
+            className="group inline-flex items-center gap-2 rounded-full border border-white/70 bg-white px-8 py-4 text-[15px] font-bold text-[#111827] shadow-[0_4px_24px_rgba(15,23,42,0.18)] backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:bg-white hover:shadow-[0_8px_50px_rgba(255,255,255,0.35)]"
           >
             See How It Works
             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />

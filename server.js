@@ -11,6 +11,44 @@ app.use(express.json());
 const NOTION_API_KEY = process.env.NOTION_API_KEY || "";
 const NOTION_DATABASE_ID = process.env.NOTION_DATABASE_ID || "";
 const NOTION_VERSION = "2022-06-28";
+const NOTION_TITLE_PROPERTY_NAME = "Created";
+const NOTION_NAME_PROPERTY_TYPE = "rich_text";
+
+function buildNotionProperties({ name, email, company, phone, message, source }, namePropertyType = NOTION_NAME_PROPERTY_TYPE) {
+  const properties = {
+    [NOTION_TITLE_PROPERTY_NAME]: {
+      title: [{ text: { content: `${name} - ${new Date().toISOString().slice(0, 10)}` } }],
+    },
+    Email: { email },
+    Company: { rich_text: company ? [{ text: { content: company } }] : [] },
+    Phone: { phone_number: phone || null },
+    Message: { rich_text: [{ text: { content: message.slice(0, 2000) } }] },
+    Source: { select: { name: source || "Contact Form" } },
+    Status: { select: { name: "New" } },
+  };
+
+  properties.Name =
+    namePropertyType === "rich_text"
+      ? { rich_text: [{ text: { content: name } }] }
+      : { title: [{ text: { content: name } }] };
+
+  return properties;
+}
+
+async function createNotionLead(payload, namePropertyType = NOTION_NAME_PROPERTY_TYPE) {
+  return fetch("https://api.notion.com/v1/pages", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${NOTION_API_KEY}`,
+      "Notion-Version": NOTION_VERSION,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      parent: { database_id: NOTION_DATABASE_ID },
+      properties: buildNotionProperties(payload, namePropertyType),
+    }),
+  });
+}
 
 // Health check
 app.get("/api/health", (_req, res) => {
@@ -31,34 +69,15 @@ app.post("/api/contact", async (req, res) => {
       return res.status(500).json({ success: false, error: "Server configuration error." });
     }
 
-    const notionPayload = {
-      parent: { database_id: NOTION_DATABASE_ID },
-      properties: {
-        Name: { title: [{ text: { content: name } }] },
-        Email: { email: email },
-        Company: { rich_text: company ? [{ text: { content: company } }] : [] },
-        Phone: { phone_number: phone || null },
-        Message: { rich_text: [{ text: { content: message.slice(0, 2000) } }] },
-        Source: { select: { name: source || "Contact Form" } },
-        Status: { select: { name: "New" } },
-      },
-    };
-
-    const response = await fetch("https://api.notion.com/v1/pages", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${NOTION_API_KEY}`,
-        "Notion-Version": NOTION_VERSION,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(notionPayload),
-    });
-
+    const response = await createNotionLead({ name, email, company, phone, message, source });
     const data = await response.json();
 
     if (!response.ok) {
       console.error("Notion API error:", data);
-      return res.status(500).json({ success: false, error: "Failed to save lead." });
+      return res.status(500).json({
+        success: false,
+        error: data?.message || data?.error || "Failed to save lead.",
+      });
     }
 
     console.log(`✅ New lead saved: ${name} (${email}) — Source: ${source || "Contact Form"}`);

@@ -1,14 +1,13 @@
 import type { LucideIcon } from "lucide-react";
 import {
-  BarChart3,
   Bot,
   Code2,
-  Link2,
-  Mail,
-  MessageSquare,
-  Phone,
-  PieChart,
-  Zap,
+  LayoutTemplate,
+  MonitorSmartphone,
+  Rocket,
+  Settings2,
+  ShieldCheck,
+  Sparkles,
 } from "lucide-react";
 
 export type Service = {
@@ -31,533 +30,474 @@ export type Service = {
 
 export const services: Service[] = [
   {
-    slug: "workflow-automation",
-    icon: Zap,
-    tag: "Workflow Automation",
-    title: "Eliminate Repetitive Tasks",
+    slug: "mvp-development",
+    icon: Rocket,
+    tag: "MVP Development",
+    title: "Launch a Strong MVP",
     description:
-      "Stop your team from doing the same thing over and over. We automate data entry, follow-ups, approvals, and handoffs so your people focus on the work that actually grows your business.",
-    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&q=80",
+      "We help founders go from idea to working product with a focused MVP that proves the concept, gets user feedback fast, and avoids wasting budget on the wrong features.",
+    image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&q=80",
     color: "#16A34A",
     size: "big",
-    heroTitle: "Workflow automation built around your real operating bottlenecks",
+    heroTitle: "MVP development for founders who need speed without chaos",
     heroSummary:
-      "We map the repetitive work slowing your team down, remove manual handoffs, and turn scattered admin into automated flows that run cleanly in the background.",
+      "Typin positions itself as a technical co-founder for ambitious teams. This service translates that promise into a lean, production-minded MVP that is fast to launch and credible with users and investors.",
     metrics: [
-      { value: "20+", label: "hours recovered each week" },
-      { value: "70%", label: "less manual admin" },
-      { value: "1", label: "shared workflow system" },
+      { value: "6-10", label: "weeks for focused MVPs" },
+      { value: "1", label: "clear product roadmap" },
+      { value: "Fast", label: "feedback loop to market" },
     ],
     challenges: [
-      "Teams re-entering the same data across forms, inboxes, and spreadsheets",
-      "Approvals and task handoffs getting delayed because nobody owns the next step",
-      "Important follow-ups depending on memory instead of a reliable system",
+      "Founders are unsure what the first version should include and what should wait",
+      "Early teams need something launchable, not a bloated backlog full of guesses",
+      "Bad architecture decisions at MVP stage create expensive rewrites later",
     ],
     deliverables: [
-      "Workflow audit and automation map",
-      "Rule-based triggers, approvals, and task routing",
-      "Error handling, notifications, and fallback paths",
-      "Visibility into what ran, what failed, and what needs attention",
+      "MVP scope definition with feature prioritization",
+      "Product architecture and development roadmap",
+      "Frontend and backend implementation for launch",
+      "Launch support, QA, and post-release iteration plan",
     ],
     process: [
       {
-        title: "Map the current flow",
+        title: "Define the smallest useful product",
         description:
-          "We document each manual step, owner, decision point, and tool dependency before changing anything.",
+          "We map the core user journey, strip away distraction, and decide what must exist for a meaningful first release.",
       },
       {
-        title: "Design the automation logic",
+        title: "Build for launch, not just demo",
         description:
-          "The new flow is built around triggers, conditions, approvals, and exception handling instead of ideal-case assumptions.",
+          "The product is engineered to work in production with stable foundations rather than hacked together for screenshots.",
       },
       {
-        title: "Deploy and stabilize",
+        title: "Iterate from real usage",
         description:
-          "We launch in controlled phases, monitor edge cases, and tighten the workflow until it is dependable under real use.",
+          "After launch, we use product signal and user feedback to shape the next phase instead of guessing ahead of the market.",
       },
     ],
     faqs: [
       {
-        question: "Can you automate part of a process instead of the whole thing?",
+        question: "Can you help define the MVP if the idea is still rough?",
         answer:
-          "Yes. We usually start with the highest-friction segment first, then expand once the first automation proves stable.",
+          "Yes. That is usually where we add the most value. We help shape the product before engineering starts.",
       },
       {
-        question: "What if the workflow has exceptions?",
+        question: "Will the MVP be scalable later?",
         answer:
-          "We design exception paths and human review points upfront so unusual cases do not break the system.",
+          "Yes. We keep the first release lean, but we avoid shortcuts that make later growth unnecessarily painful.",
       },
     ],
   },
   {
-    slug: "crm-pipeline-automation",
-    icon: BarChart3,
-    tag: "CRM & Pipeline",
-    title: "Your CRM Runs Itself",
+    slug: "ai-powered-solutions",
+    icon: Bot,
+    tag: "AI-Powered Solutions",
+    title: "Add AI Where It Creates Real Value",
     description:
-      "We connect your CRM, inbox, and pipeline so deals move forward and nothing gets lost.",
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=500&q=80",
-    color: "#0D9488",
-    size: "small",
-    heroTitle: "A CRM that updates itself and pushes deals forward",
-    heroSummary:
-      "Lead capture, assignment, stage updates, reminders, and follow-up triggers should not depend on reps remembering admin. We automate that layer.",
-    metrics: [
-      { value: "0", label: "missed stage updates" },
-      { value: "<1m", label: "lead routing time" },
-      { value: "100%", label: "pipeline visibility" },
-    ],
-    challenges: [
-      "Deals stalling because follow-ups are inconsistent",
-      "Leads living in inboxes before they ever reach the CRM",
-      "Management reporting based on incomplete or outdated records",
-    ],
-    deliverables: [
-      "Inbound lead routing and ownership rules",
-      "Automated stage movement and reminders",
-      "CRM sync with forms, email, calendar, and sales tools",
-      "Pipeline dashboards for managers and founders",
-    ],
-    process: [
-      {
-        title: "Audit the current pipeline",
-        description:
-          "We identify where leads are dropping, where reps are doing manual updates, and which fields actually matter.",
-      },
-      {
-        title: "Standardize lifecycle rules",
-        description:
-          "Qualification, assignment, escalation, and inactivity logic are defined so the CRM behaves consistently.",
-      },
-      {
-        title: "Connect the revenue stack",
-        description:
-          "Forms, inboxes, calendars, and deal stages are connected so one action updates the right systems automatically.",
-      },
-    ],
-    faqs: [
-      {
-        question: "Do we need to change CRMs?",
-        answer:
-          "Usually no. We work with the system you already use and only recommend migration if the current setup is blocking the outcome.",
-      },
-      {
-        question: "Can this support multiple sales reps or teams?",
-        answer:
-          "Yes. Assignment and routing rules can be built around territory, service line, availability, or custom ownership logic.",
-      },
-    ],
-  },
-  {
-    slug: "ai-chatbots",
-    icon: MessageSquare,
-    tag: "AI Chatbots",
-    title: "Handle 10x More Enquiries",
-    description:
-      "AI chatbots for sales, support, and bookings that work 24/7 without hiring more people.",
-    image: "https://unsplash.com/photos/BlWbfrQrI5k/download?force=true&w=500",
+      "We design and ship AI features that solve actual business problems, from automation and recommendations to assistants, analytics, and intelligent product experiences.",
+    image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=700&q=80",
     color: "#059669",
     size: "small",
-    heroTitle: "AI chatbots that qualify, answer, and convert instead of just greeting visitors",
+    heroTitle: "AI features built around business outcomes, not hype",
     heroSummary:
-      "We build chatbot flows that capture intent, answer common questions, collect the right details, and pass clean context into your team or booking system.",
+      "Typin's site consistently emphasizes AI-powered development. This service turns that positioning into applied AI systems that improve workflows, user experience, and decision-making.",
     metrics: [
-      { value: "24/7", label: "instant first response" },
-      { value: "10x", label: "more enquiries handled" },
-      { value: "1", label: "consistent qualification flow" },
+      { value: "AI", label: "embedded into product flows" },
+      { value: "Faster", label: "decision and task execution" },
+      { value: "Smarter", label: "customer interactions" },
     ],
     challenges: [
-      "Website enquiries going cold outside business hours",
-      "Support teams answering the same questions repeatedly",
-      "Leads arriving without enough context for the next action",
+      "Teams want AI in the product but do not have a clear use case worth building",
+      "Generic automations do not fit the product or customer workflow",
+      "Founders need help turning raw models into reliable business features",
     ],
     deliverables: [
-      "Conversation design for sales, support, or booking use cases",
-      "Knowledge-grounded answers and escalation logic",
-      "Lead capture with CRM and calendar handoff",
-      "Analytics on intents, drop-off points, and conversion quality",
+      "AI use-case discovery and feasibility planning",
+      "Model integration, prompting, and guardrail design",
+      "AI workflows inside product, support, or internal operations",
+      "Measurement framework for quality, accuracy, and business impact",
     ],
     process: [
       {
-        title: "Define intent groups",
+        title: "Find the highest-leverage use case",
         description:
-          "We separate the conversations your bot must handle well, such as sales enquiries, support questions, and appointment requests.",
+          "We identify where AI can create an operational or product advantage instead of forcing it into the stack for marketing reasons.",
       },
       {
-        title: "Build the response system",
+        title: "Design the system around trust",
         description:
-          "Prompting, guardrails, retrieval, and escalation paths are tuned around your business rather than a generic assistant template.",
+          "The experience, prompts, validation, and fallback logic are designed so the output is useful in real business conditions.",
       },
       {
-        title: "Launch with measurement",
+        title: "Tune against actual usage",
         description:
-          "We monitor conversation outcomes, weak replies, and transfer quality, then improve the bot against real transcripts.",
+          "We monitor failures, refine outputs, and improve the feature based on live user behavior.",
       },
     ],
     faqs: [
       {
-        question: "Will the chatbot hand over to a human?",
+        question: "Do you only build chatbots?",
         answer:
-          "Yes. We set clear escalation conditions so higher-risk or higher-value conversations move to the right person quickly.",
+          "No. AI can power copilots, internal tools, search, classification, personalization, analytics, and workflow automation.",
       },
       {
-        question: "Can it work from our documents or FAQ content?",
+        question: "Can AI be added to an existing product?",
         answer:
-          "Yes. We can ground responses in approved business content so answers stay consistent with your actual policies and offers.",
+          "Yes. Many teams start by embedding AI into an existing workflow instead of building a new product from scratch.",
       },
     ],
   },
   {
-    slug: "voice-ai",
-    icon: Phone,
-    tag: "Voice AI",
-    title: "AI Calling That Works",
-    description:
-      "Automated voice agents that qualify enquiries, capture intent, and book meetings into your calendar without a receptionist on the clock.",
-    image: "https://images.unsplash.com/photo-1596524430615-b46475ddff6e?w=600&q=80",
-    color: "#CA8A04",
-    size: "big",
-    heroTitle: "Voice AI for inbound and outbound calls that need real business outcomes",
-    heroSummary:
-      "We design voice workflows for qualification, booking, reminders, and basic support so calls get handled immediately without adding headcount.",
-    metrics: [
-      { value: "30s", label: "response time" },
-      { value: "24/7", label: "call coverage" },
-      { value: "2x", label: "more booked conversations" },
-    ],
-    challenges: [
-      "Missed calls turning into lost revenue",
-      "Staff spending time on repetitive qualification and scheduling",
-      "No clean record of why callers reached out and what happened next",
-    ],
-    deliverables: [
-      "Voice conversation flows with qualification logic",
-      "Booking, reminder, and routing integrations",
-      "Call summaries pushed into CRM or inbox workflows",
-      "Fallback to human agents when confidence or complexity drops",
-    ],
-    process: [
-      {
-        title: "Script the business logic",
-        description:
-          "We define what the agent should ask, what counts as qualified, and when it should route or escalate.",
-      },
-      {
-        title: "Connect telephony and systems",
-        description:
-          "Phone numbers, calendars, CRMs, and notifications are tied together so each call produces a usable next step.",
-      },
-      {
-        title: "Refine against live calls",
-        description:
-          "We review outcomes, tune phrasing, and improve handling for interruptions, ambiguity, and edge cases.",
-      },
-    ],
-    faqs: [
-      {
-        question: "Can the agent transfer calls to a real person?",
-        answer:
-          "Yes. Transfer and fallback rules are part of the core design so callers do not get trapped in automation.",
-      },
-      {
-        question: "Is this only for inbound calls?",
-        answer:
-          "No. It can also support outbound reminders, follow-ups, reactivation, and qualification campaigns.",
-      },
-    ],
-  },
-  {
-    slug: "dashboards-reporting",
-    icon: PieChart,
-    tag: "Dashboards & Reporting",
-    title: "See Everything at a Glance",
-    description:
-      "Live dashboards that show pipeline health, team performance, and campaign ROI.",
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=500&q=80",
-    color: "#0891B2",
-    size: "small",
-    heroTitle: "Reporting that turns disconnected data into decisions",
-    heroSummary:
-      "We build dashboards that show what matters operationally and commercially, without forcing your team to pull numbers manually every week.",
-    metrics: [
-      { value: "Live", label: "reporting visibility" },
-      { value: "1", label: "source of truth" },
-      { value: "0", label: "manual report chasing" },
-    ],
-    challenges: [
-      "Leadership decisions being made from stale spreadsheets",
-      "Teams wasting time assembling reports instead of acting on them",
-      "No shared view of pipeline, performance, or service delivery health",
-    ],
-    deliverables: [
-      "Executive dashboards tailored to business KPIs",
-      "Automated data sync from CRM, ads, ops, and finance tools",
-      "Role-specific views for management and teams",
-      "Alerting for threshold breaches and exceptions",
-    ],
-    process: [
-      {
-        title: "Choose decision-driving metrics",
-        description:
-          "We strip reporting down to the numbers that actually influence action, not vanity metrics.",
-      },
-      {
-        title: "Unify the data inputs",
-        description:
-          "Source systems are cleaned up and mapped so the dashboard stays consistent and trustworthy.",
-      },
-      {
-        title: "Publish and train",
-        description:
-          "Teams get a dashboard they can read quickly, plus clear definitions for what each metric means and how to use it.",
-      },
-    ],
-    faqs: [
-      {
-        question: "Can you work with messy source data?",
-        answer:
-          "Yes, but we will usually standardize key fields and naming first so the reporting layer stays reliable.",
-      },
-      {
-        question: "Do dashboards update automatically?",
-        answer:
-          "Yes. The goal is live or scheduled syncs so nobody is manually preparing reporting packs.",
-      },
-    ],
-  },
-  {
-    slug: "system-integrations",
-    icon: Link2,
-    tag: "System Integrations",
-    title: "All Your Tools, One Flow",
-    description:
-      "Connect your forms, calendars, email, CRM, and tools into one smooth automated process.",
-    image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=500&q=80",
-    color: "#15803D",
-    size: "small",
-    heroTitle: "System integrations that remove the gaps between your tools",
-    heroSummary:
-      "Most operational friction comes from handoffs between apps. We connect the stack so information moves once and the right action happens automatically.",
-    metrics: [
-      { value: "1", label: "connected operating flow" },
-      { value: "0", label: "duplicate entry loops" },
-      { value: "Fast", label: "handoff speed" },
-    ],
-    challenges: [
-      "Teams copying data from one tool into another",
-      "Disconnected apps creating blind spots and duplicate work",
-      "Critical workflows breaking because integrations are partial or fragile",
-    ],
-    deliverables: [
-      "API and no-code integration architecture",
-      "Data mapping and field normalization",
-      "Webhook or scheduled sync orchestration",
-      "Monitoring for failed syncs and recovery paths",
-    ],
-    process: [
-      {
-        title: "Audit the toolchain",
-        description:
-          "We identify where data is created, where it needs to travel, and which systems should be authoritative.",
-      },
-      {
-        title: "Define the integration rules",
-        description:
-          "Field mappings, sync direction, triggers, and validation rules are specified before any connection goes live.",
-      },
-      {
-        title: "Deploy with observability",
-        description:
-          "We make failures visible and recoverable so the integration layer does not become another hidden operational risk.",
-      },
-    ],
-    faqs: [
-      {
-        question: "Can you connect legacy or niche tools?",
-        answer:
-          "Often yes. We assess API access, webhook support, and fallback options before committing to the integration design.",
-      },
-      {
-        question: "What happens when a sync fails?",
-        answer:
-          "We set up alerting, retry logic, and exception handling so failures are surfaced quickly instead of silently corrupting the process.",
-      },
-    ],
-  },
-  {
-    slug: "ai-assistants",
-    icon: Bot,
-    tag: "AI Assistants",
-    title: "Your 24/7 Digital Employee",
-    description:
-      "Deploy AI assistants that handle qualification, appointment booking, FAQs, and client nurture around the clock, without breaks or sick days.",
-    image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=600&q=80",
-    color: "#D97706",
-    size: "big",
-    heroTitle: "AI assistants that support revenue and operations continuously",
-    heroSummary:
-      "We build assistants that can own narrow but high-value responsibilities across qualification, support, scheduling, and internal knowledge access.",
-    metrics: [
-      { value: "24/7", label: "coverage window" },
-      { value: "Consistent", label: "response quality" },
-      { value: "Scaled", label: "service capacity" },
-    ],
-    challenges: [
-      "Teams losing time to repetitive inbound questions and coordination",
-      "Customers expecting immediate responses outside working hours",
-      "Internal knowledge trapped in a few experienced employees",
-    ],
-    deliverables: [
-      "Role-specific AI assistant design",
-      "Knowledge retrieval, permissions, and guardrails",
-      "Task execution against approved tools and systems",
-      "Escalation pathways for human review",
-    ],
-    process: [
-      {
-        title: "Define the assistant role",
-        description:
-          "We scope the responsibilities tightly so the assistant has a clear job rather than a vague mandate.",
-      },
-      {
-        title: "Connect approved knowledge and actions",
-        description:
-          "The assistant is grounded in trusted content and only given the actions it needs to perform safely.",
-      },
-      {
-        title: "Measure business impact",
-        description:
-          "We track completion quality, deflection, escalation, and time saved so the assistant is managed like an operational asset.",
-      },
-    ],
-    faqs: [
-      {
-        question: "Is this the same as a chatbot?",
-        answer:
-          "Not exactly. A chatbot is one interface. An assistant usually has broader workflow context, memory, and task execution responsibilities.",
-      },
-      {
-        question: "Can an assistant be internal-facing only?",
-        answer:
-          "Yes. Many useful assistants support staff with knowledge access, routing, drafting, and repetitive internal processes.",
-      },
-    ],
-  },
-  {
-    slug: "custom-solutions",
+    slug: "web-app-development",
     icon: Code2,
-    tag: "Custom Solutions",
-    title: "Built Around Your Workflow",
+    tag: "Web Development",
+    title: "High-Performance Web Applications",
     description:
-      "Tailored portals, dashboards, and apps designed specifically for how your team works.",
-    image: "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?w=500&q=80",
-    color: "#DC2626",
+      "We build modern web products with clean architecture, strong UX, and production-ready code for startups and growing companies.",
+    image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=700&q=80",
+    color: "#0D9488",
     size: "small",
-    heroTitle: "Custom systems when off-the-shelf tools stop fitting the business",
+    heroTitle: "Web apps engineered for usability, speed, and long-term growth",
     heroSummary:
-      "When your workflow is too specific for generic software, we build the operational layer you actually need instead of forcing compromises.",
+      "Typin publicly highlights React, Next.js, TypeScript, and cloud-native delivery. This service covers the full web application layer behind that promise.",
     metrics: [
-      { value: "Tailored", label: "fit to workflow" },
-      { value: "1", label: "central operating layer" },
-      { value: "Less", label: "tool sprawl" },
+      { value: "Modern", label: "frontend architecture" },
+      { value: "Scalable", label: "backend foundations" },
+      { value: "Smooth", label: "user experience" },
     ],
     challenges: [
-      "Teams stitching together too many tools with too many limitations",
-      "Critical processes depending on spreadsheets or manual workarounds",
-      "Off-the-shelf software forcing the business into the wrong shape",
+      "Teams outgrow no-code tools and need a proper product foundation",
+      "Existing web apps become slow, brittle, or hard to extend",
+      "Founders need a polished web product that feels credible from day one",
     ],
     deliverables: [
-      "Custom internal tools, portals, or client-facing workflows",
-      "Automation logic embedded into the product experience",
-      "Reporting, permissions, and role-based access",
-      "Roadmap for future expansion once the first release is live",
+      "Frontend development with responsive UI",
+      "Backend APIs, auth flows, and data modeling",
+      "Admin panels, dashboards, and internal tools",
+      "Deployment, QA, and performance optimization",
     ],
     process: [
       {
-        title: "Define the real use case",
+        title: "Plan the product structure",
         description:
-          "We focus on the operational outcome the system needs to create, not just the screens it should contain.",
+          "We decide how the product should be organized technically before screens and features multiply.",
       },
       {
-        title: "Build the smallest useful release",
+        title: "Build the critical paths first",
         description:
-          "The first version is scoped to replace the most painful workaround and create a stable foundation.",
+          "The most important user journeys are implemented early so quality is visible where it matters.",
       },
       {
-        title: "Expand from production feedback",
+        title: "Stabilize for production",
         description:
-          "Once real users are in the system, we evolve it around actual usage patterns instead of assumptions.",
+          "Performance, reliability, and release readiness are treated as part of the product, not an afterthought.",
       },
     ],
     faqs: [
       {
-        question: "Do you only build full apps?",
+        question: "Do you work with existing codebases?",
         answer:
-          "No. Sometimes the right answer is a focused internal tool or portal that removes one major operational bottleneck.",
+          "Yes. We can improve or extend an existing application when the current foundation is worth keeping.",
       },
       {
-        question: "Can custom solutions include automations too?",
+        question: "Can you build internal tools too?",
         answer:
-          "Yes. Automation is often part of the product logic, not a separate layer.",
+          "Yes. Internal systems are often just as valuable as customer-facing products when operations are the bottleneck.",
       },
     ],
   },
   {
-    slug: "email-outreach",
-    icon: Mail,
-    tag: "Email & Outreach",
-    title: "Automated Outreach That Converts",
+    slug: "mobile-app-development",
+    icon: MonitorSmartphone,
+    tag: "Mobile Apps",
+    title: "Mobile Products Users Keep Coming Back To",
     description:
-      "Smart email sequences and drip campaigns that nurture leads on autopilot.",
-    image: "https://unsplash.com/photos/wAZ8pS2D_OA/download?force=true&w=500",
+      "We design and build mobile applications with strong usability, product clarity, and a technical foundation that supports growth after launch.",
+    image: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=800&q=80",
+    color: "#2563EB",
+    size: "big",
+    heroTitle: "Mobile app development with startup speed and product discipline",
+    heroSummary:
+      "Typin frames itself as a partner from concept to market success. Mobile product delivery is part of that positioning, especially for startups building customer-facing experiences.",
+    metrics: [
+      { value: "iOS", label: "and Android coverage" },
+      { value: "Strong", label: "retention-first UX" },
+      { value: "Ready", label: "for app store launch" },
+    ],
+    challenges: [
+      "Founders need a mobile product but lack technical leadership on architecture and scope",
+      "Design concepts do not translate cleanly into real mobile interactions",
+      "Teams need a mobile release that feels premium without dragging the timeline",
+    ],
+    deliverables: [
+      "Mobile product planning and screen flow design",
+      "Native or cross-platform application development",
+      "Authentication, APIs, notifications, and core app logic",
+      "Store submission support and post-launch improvements",
+    ],
+    process: [
+      {
+        title: "Validate the mobile use case",
+        description:
+          "We make sure the mobile product solves the right problem and that the app experience is justified by the workflow.",
+      },
+      {
+        title: "Design for real usage patterns",
+        description:
+          "Navigation, onboarding, and repeat actions are shaped around mobile behavior instead of porting web thinking onto a phone.",
+      },
+      {
+        title: "Launch and refine",
+        description:
+          "After release, we review adoption, friction points, and product metrics to improve the next version intelligently.",
+      },
+    ],
+    faqs: [
+      {
+        question: "Can you build both web and mobile together?",
+        answer:
+          "Yes. Many products need both, and we can align them under one roadmap and shared backend.",
+      },
+      {
+        question: "Do you help with app store submission?",
+        answer:
+          "Yes. We handle the practical launch steps as part of getting the product into users' hands.",
+      },
+    ],
+  },
+  {
+    slug: "ui-ux-design",
+    icon: LayoutTemplate,
+    tag: "UI/UX Design",
+    title: "Design That Clarifies the Product",
+    description:
+      "We craft interfaces and user flows that make complex products easier to understand, easier to use, and more likely to convert.",
+    image: "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?w=700&q=80",
     color: "#7C3AED",
     size: "small",
-    heroTitle: "Automated outreach systems that keep warm leads moving",
+    heroTitle: "UI and UX design that improves both adoption and confidence",
     heroSummary:
-      "We build email and outreach journeys that trigger from real buyer behavior, segment intelligently, and keep follow-up consistent without manual chasing.",
+      "Typin's public messaging includes elegant, high-performance software and user-centric execution. This service covers the product design layer that makes that credible.",
     metrics: [
-      { value: "Always-on", label: "lead nurture" },
-      { value: "Faster", label: "follow-up cadence" },
-      { value: "Higher", label: "pipeline consistency" },
+      { value: "Clear", label: "user journeys" },
+      { value: "Better", label: "product conversion" },
+      { value: "Polished", label: "brand perception" },
     ],
     challenges: [
-      "Leads going cold because follow-up is delayed or inconsistent",
-      "One-size-fits-all outreach that ignores intent and stage",
-      "No visibility into which sequences are creating meetings or replies",
+      "Founders know what the product should do but not how the experience should feel",
+      "Products become hard to use when features pile up without design discipline",
+      "Weak interface quality hurts trust, onboarding, and conversion",
     ],
     deliverables: [
-      "Lifecycle email flows and follow-up sequences",
-      "Segmentation rules based on source, behavior, or stage",
-      "CRM-triggered nurture automation",
-      "Performance reporting on opens, replies, meetings, and drop-off",
+      "Wireframes, user flows, and interface systems",
+      "High-fidelity screen design for web or mobile",
+      "Design direction aligned with market and brand",
+      "Developer-ready assets and interaction guidance",
     ],
     process: [
       {
-        title: "Define lifecycle segments",
+        title: "Reduce complexity first",
         description:
-          "We separate cold prospects, active leads, no-shows, old opportunities, and clients so messaging matches intent.",
+          "We clarify the product structure before styling the interface so the experience feels coherent, not just attractive.",
       },
       {
-        title: "Build the sequence logic",
+        title: "Design key moments deliberately",
         description:
-          "Timing, triggers, suppression rules, and branch conditions are set so contacts do not get messy or conflicting messaging.",
+          "Onboarding, core actions, and conversion points are designed with extra care because they shape user perception fastest.",
       },
       {
-        title: "Improve through signal",
+        title: "Hand off for clean execution",
         description:
-          "We review response data and conversion outcomes, then tighten messaging and cadence where it matters.",
+          "The final output is prepared so engineering can build it accurately without guessing through the design intent.",
       },
     ],
     faqs: [
       {
-        question: "Can this work with our CRM and forms?",
+        question: "Do you design only, or also build the product?",
         answer:
-          "Yes. Sequence entry and exit rules are usually tied directly to CRM status, lead source, and engagement data.",
+          "We can do either, but the strongest outcome usually comes when design and development are handled together.",
       },
       {
-        question: "Do you write the automation logic only or also the content?",
+        question: "Can you redesign an existing product?",
         answer:
-          "We can do both. The stronger result comes from aligning message content with the workflow and qualification logic together.",
+          "Yes. We often improve usability and clarity without requiring a full rebuild from scratch.",
+      },
+    ],
+  },
+  {
+    slug: "saas-development",
+    icon: Settings2,
+    tag: "SaaS Development",
+    title: "Custom SaaS Platforms Built to Scale",
+    description:
+      "We build SaaS products with the core systems founders need early: authentication, billing, dashboards, permissions, workflows, and a roadmap that supports growth.",
+    image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=700&q=80",
+    color: "#EA580C",
+    size: "small",
+    heroTitle: "SaaS products built with the foundations founders regret skipping",
+    heroSummary:
+      "LinkedIn signals SaaS development and custom software as part of Typin's service mix. This service packages that clearly for founders building subscription products.",
+    metrics: [
+      { value: "Core", label: "SaaS architecture in place" },
+      { value: "Ready", label: "for recurring revenue flows" },
+      { value: "Built", label: "for phased expansion" },
+    ],
+    challenges: [
+      "Founders need more than a landing page and basic prototype",
+      "SaaS products require product logic, user roles, billing, and admin visibility from early on",
+      "Short-term builds often ignore the systems that become essential after traction starts",
+    ],
+    deliverables: [
+      "Multi-user SaaS product architecture",
+      "Billing, subscriptions, and account management flows",
+      "Permissions, dashboards, and internal admin tools",
+      "Roadmap planning for post-MVP expansion",
+    ],
+    process: [
+      {
+        title: "Define the SaaS core loop",
+        description:
+          "We map how users sign up, activate, derive value, and stay engaged so the product has a clear revenue and retention structure.",
+      },
+      {
+        title: "Build the operational foundations",
+        description:
+          "Account logic, permissions, billing, and analytics are treated as product essentials, not optional extras.",
+      },
+      {
+        title: "Prepare for the next phase",
+        description:
+          "The product is structured so new modules, roles, and workflows can be added without starting over.",
+      },
+    ],
+    faqs: [
+      {
+        question: "Can you build B2B SaaS and client portals?",
+        answer:
+          "Yes. Both fit naturally within this service depending on the business model and user roles.",
+      },
+      {
+        question: "Do you help with product roadmap after launch?",
+        answer:
+          "Yes. We can continue as a build partner while the product grows beyond the first release.",
+      },
+    ],
+  },
+  {
+    slug: "technical-cofounder-partnership",
+    icon: ShieldCheck,
+    tag: "Technical Co-Founder Support",
+    title: "Technical Partnership for Non-Technical Founders",
+    description:
+      "We act as a strategic technical partner for founders who need product direction, architecture decisions, execution oversight, and a team that thinks beyond tickets.",
+    image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&q=80",
+    color: "#0891B2",
+    size: "big",
+    heroTitle: "A technical co-founder mindset without the typical agency gap",
+    heroSummary:
+      "This is the strongest repeated message across Typin's public positioning. The offer is not just software delivery. It is product thinking, execution guidance, and long-term technical partnership.",
+    metrics: [
+      { value: "Strategic", label: "technical decision support" },
+      { value: "Shared", label: "ownership mindset" },
+      { value: "Clear", label: "product direction" },
+    ],
+    challenges: [
+      "Non-technical founders struggle to evaluate architecture, timelines, and tradeoffs",
+      "Many agencies build what is asked for without helping define what should be built",
+      "Startups need a partner who understands both product risk and engineering execution",
+    ],
+    deliverables: [
+      "Technical planning and architecture direction",
+      "Feature scoping, tradeoff analysis, and roadmap input",
+      "Execution leadership across design and development",
+      "Ongoing support as the product and company mature",
+    ],
+    process: [
+      {
+        title: "Align on the business goal",
+        description:
+          "We start from the founder's market, users, and growth constraints instead of treating engineering as an isolated function.",
+      },
+      {
+        title: "Make the technical path legible",
+        description:
+          "The roadmap, architecture, and milestone plan are shaped so founders can make decisions confidently.",
+      },
+      {
+        title: "Execute with accountability",
+        description:
+          "We stay close to outcomes, not just tasks, and keep the build aligned with the company's actual priorities.",
+      },
+    ],
+    faqs: [
+      {
+        question: "Is this fractional CTO work or product development?",
+        answer:
+          "It can be both. The value is in combining strategic guidance with real execution capability.",
+      },
+      {
+        question: "Can you work with an internal team?",
+        answer:
+          "Yes. We can lead delivery ourselves or work alongside an internal team where that is the better structure.",
+      },
+    ],
+  },
+  {
+    slug: "end-to-end-product-development",
+    icon: Sparkles,
+    tag: "End-to-End Delivery",
+    title: "From Concept to Launch and Beyond",
+    description:
+      "We handle strategy, design, development, deployment, and ongoing support so founders do not have to stitch together multiple vendors to get a product live.",
+    image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=700&q=80",
+    color: "#DC2626",
+    size: "small",
+    heroTitle: "End-to-end product development with one team carrying the full arc",
+    heroSummary:
+      "The website explicitly presents Typin as a partner from concept to market success. This service makes that promise clear for buyers who need one accountable team across the entire product lifecycle.",
+    metrics: [
+      { value: "One", label: "delivery partner across stages" },
+      { value: "Less", label: "handoff friction" },
+      { value: "Ongoing", label: "support after launch" },
+    ],
+    challenges: [
+      "Founders lose momentum when strategy, design, and engineering are split across disconnected vendors",
+      "Launch quality suffers when nobody owns the full product journey",
+      "Products need continued support after release, not just a handoff and goodbye",
+    ],
+    deliverables: [
+      "Discovery, planning, and product definition",
+      "UI/UX design and engineering execution",
+      "Deployment, monitoring, and release support",
+      "Maintenance, optimization, and next-phase planning",
+    ],
+    process: [
+      {
+        title: "Turn the idea into an execution plan",
+        description:
+          "We convert the vision into scope, milestones, and a delivery sequence that the team can actually execute.",
+      },
+      {
+        title: "Ship with one accountable team",
+        description:
+          "Design, engineering, QA, and launch support stay coordinated under one delivery structure.",
+      },
+      {
+        title: "Support the product after release",
+        description:
+          "We stay available for stabilization, improvements, and the next wave of feature or growth work.",
+      },
+    ],
+    faqs: [
+      {
+        question: "Do you stay involved after launch?",
+        answer:
+          "Yes. Ongoing support is part of the offer when the product needs active improvement after release.",
+      },
+      {
+        question: "Can this include AI, web, and mobile in one engagement?",
+        answer:
+          "Yes. End-to-end delivery is specifically useful when several product layers need to move together under one roadmap.",
       },
     ],
   },
