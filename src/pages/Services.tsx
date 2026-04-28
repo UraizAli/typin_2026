@@ -85,7 +85,7 @@ export default function ServicesPage() {
                 </a>
                 <a
                   href="/service-selector"
-                  className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-white/20 bg-white/10 px-8 py-4 text-base font-bold text-white backdrop-blur-sm transition-all duration-300 hover:bg-white/20"
+                  className="group inline-flex items-center gap-2 rounded-full border border-white/70 bg-white px-8 py-4 text-[15px] font-bold text-[#111827] shadow-[0_4px_24px_rgba(15,23,42,0.18)] backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:bg-white hover:shadow-[0_8px_50px_rgba(255,255,255,0.35)]"
                 >
                   <Sparkles className="h-5 w-5" />
                   Find Your Solution
