@@ -119,14 +119,14 @@ export function Hero() {
           transition={{ delay: 0.7, duration: 0.5 }}
         >
           <AppLink
-            href="#contact"
+            href="/automation-audit"
             className="group inline-flex items-center gap-2 rounded-full bg-[#4ADE80] px-8 py-4 text-[15px] font-bold text-[#111827] shadow-[0_4px_30px_rgba(74,222,128,0.35)] transition-all duration-300 hover:-translate-y-1 hover:bg-[#34D399] hover:shadow-[0_8px_50px_rgba(74,222,128,0.5)]"
           >
             Get a Free Audit
             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
           </AppLink>
           <AppLink
-            href="#about"
+            href="/about"
             className="group inline-flex items-center gap-2 rounded-full border border-white/70 bg-white px-8 py-4 text-[15px] font-bold text-[#111827] shadow-[0_4px_24px_rgba(15,23,42,0.18)] backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:bg-white hover:shadow-[0_8px_50px_rgba(255,255,255,0.35)]"
           >
             See How It Works

@@ -33,9 +33,9 @@ const navItems = [
 
 function BrandMark({ mobile = false }: { mobile?: boolean }) {
   const wrapperClasses = mobile
-    ? "overflow-hidden rounded-full px-2 py-1"
-    : "overflow-hidden rounded-full px-2 py-1 transition-all duration-300 group-hover:-translate-y-0.5";
-  const logoClasses = mobile ? "h-10 w-auto rounded-full" : "h-8 w-auto rounded-full lg:h-9";
+    ? "px-2 py-1"
+    : "px-2 py-1 transition-all duration-300 group-hover:-translate-y-0.5";
+  const logoClasses = mobile ? "h-11 w-auto" : "h-9 w-auto lg:h-10";
 
   return (
     <span className={`inline-flex items-center ${wrapperClasses}`}>
@@ -63,9 +63,9 @@ export function Navbar() {
               : "border-white/35 bg-white/48 shadow-[0_4px_30px_rgba(0,0,0,0.03)] backdrop-blur-xl"
           }`}
         >
-          <Link to="#" className="group flex shrink-0 items-center pl-3">
+          <a href="#" className="group flex shrink-0 items-center pl-3">
             <BrandMark />
-          </Link>
+          </a>
 
           <div className="hidden flex-1 items-center justify-center gap-2 px-6 lg:flex">
             {navItems.map((item) => (

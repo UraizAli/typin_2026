@@ -24,7 +24,7 @@ const posts = [
     title: "AI chatbots vs. hiring: what makes more sense for small teams",
     summary:
       "A real comparison of costs, coverage, and customer satisfaction for SMEs weighing AI against traditional staffing.",
-    image: "https://images.unsplash.com/photo-1531746790095-e5995da25a78?w=400&q=80",
+    image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=400&q=80",
     category: "Operations",
     date: "March 20, 2026",
   },
