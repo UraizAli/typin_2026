@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { CheckCircle, ArrowRight, ArrowLeft, TrendingUp, Zap } from "lucide-react";
+import { motion } from "framer-motion";
+import { CheckCircle, ArrowRight, ArrowLeft, Zap } from "lucide-react";
 import { Navbar } from "../components/layout/Navbar";
 import { Footer } from "../components/layout/Footer";
 import { SectionHeading } from "../components/ui/SectionHeading";
@@ -127,15 +127,24 @@ export default function ServiceSelector() {
   const [contactInfo, setContactInfo] = useState({ email: "", phone: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleAnswer = (qId: number, answer: string) => {
-    setAnswers((prev) => ({ ...prev, [qId]: answer }));
+  const handleAnswer = (score: string) => {
+    const currentQ = questions[currentQuestion];
+    const newAnswers = { ...answers, [currentQ.id]: score };
+    setAnswers(newAnswers);
+
+    // Auto-advance to next question or show contact form
+    setTimeout(() => {
+      if (currentQuestion < questions.length - 1) {
+        setCurrentQuestion(currentQuestion + 1);
+      } else {
+        setShowContactForm(true);
+      }
+    }, 300); // Small delay for visual feedback
   };
 
-  const nextQuestion = () => {
-    if (currentQuestion < questions.length - 1) {
-      setCurrentQuestion(currentQuestion + 1);
-    } else {
-      setShowContactForm(true);
+  const goBack = () => {
+    if (currentQuestion > 0) {
+      setCurrentQuestion(currentQuestion - 1);
     }
   };
 
@@ -146,31 +155,45 @@ export default function ServiceSelector() {
     setIsSubmitting(true);
     
     try {
-      await fetch("/api/contact", {
+      const recommendation = getRecommendation();
+      
+      // Send to new service-selector endpoint
+      const response = await fetch("/api/service-selector", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          name: contactInfo.email.split("@")[0],
           email: contactInfo.email,
           phone: contactInfo.phone,
-          company: "",
-          message: `Service Selector Results Request - Answers: ${JSON.stringify(answers)}`,
-          source: "Service Selector",
+          answers: answers,
+          recommendation: {
+            primary: recommendation.primary,
+            secondary: recommendation.secondary,
+            fitScore: recommendation.fitScore,
+            timelineEstimate: recommendation.timelineEstimate,
+            costRange: recommendation.costRange,
+            integrationInfo: recommendation.integrationInfo,
+            personalizedIntro: recommendation.personalizedIntro,
+            teamSize: recommendation.teamSize,
+            tools: recommendation.tools,
+            goal: recommendation.goal,
+          },
         }),
       });
+
+      const data = await response.json();
+      
+      if (!response.ok) {
+        console.error("Failed to submit service selector data:", data.error);
+      } else {
+        console.log("Service selector data saved successfully:", data.id);
+      }
     } catch (error) {
-      console.error("Failed to submit contact info:", error);
+      console.error("Failed to submit service selector data:", error);
     }
     
     setIsSubmitting(false);
     setShowContactForm(false);
     setShowResults(true);
-  };
-
-  const prevQuestion = () => {
-    if (currentQuestion > 0) {
-      setCurrentQuestion(currentQuestion - 1);
-    }
   };
 
   const getRecommendation = () => {
@@ -181,7 +204,7 @@ export default function ServiceSelector() {
     const budget = answers[5] as string;
     const timeline = answers[6] as string;
 
-    const primary = recommendations[painPoint as keyof typeof recommendations];
+    const primary = recommendations[painPoint as keyof typeof recommendations] || recommendations["data-entry"];
     const secondary = secondaryRecommendations[primary.secondary];
 
     // Calculate fit score based on all answers
@@ -215,11 +238,11 @@ export default function ServiceSelector() {
     else timelineEstimate = "6-12 weeks";
 
     // Get cost estimate based on team size and budget
-    let costRange = "$500-$2,000/month";
-    if (teamSize === "20+") costRange = "$2,000-$5,000/month";
-    else if (teamSize === "6-20") costRange = "$1,000-$3,000/month";
+    let costRange = "$500-$2000/month";
+    if (teamSize === "20+") costRange = "$2000-$5000/month";
+    else if (teamSize === "6-20") costRange = "$1000-$3000/month";
     else if (budget === "under-500") costRange = "$300-$800/month";
-    else if (budget === "5000+") costRange = "$3,000-$8,000/month";
+    else if (budget === "5000+") costRange = "$3000-$8000/month";
 
     // Get tool integration info
     let integrationInfo = "";
@@ -246,7 +269,9 @@ export default function ServiceSelector() {
     };
   };
 
+  const allAnswered = questions.every(q => answers[q.id]);
   const progress = ((currentQuestion + 1) / questions.length) * 100;
+  const currentQ = questions[currentQuestion];
 
   // Contact Form Screen
   if (showContactForm) {
@@ -682,9 +707,6 @@ export default function ServiceSelector() {
     );
   }
 
-  const currentQ = questions[currentQuestion];
-  const answered = answers[currentQ.id];
-
   return (
     <div className="min-h-screen bg-[#FAFBFC] text-[#1F2937]">
       <Navbar />
@@ -825,12 +847,7 @@ export default function ServiceSelector() {
           />
           
           <div className="mx-auto max-w-2xl relative z-10">
-            <SectionHeading
-              title="Let's Find What Works for You"
-              subtitle="This will only take 2 minutes"
-            />
-
-            <div className="mt-16 rounded-3xl border border-[#E5E7EB] bg-white p-8 shadow-sm">
+            <div className="rounded-3xl border border-[#E5E7EB] bg-white p-8 shadow-sm">
               {/* Progress Bar */}
               <div className="mb-8">
                 <div className="flex items-center justify-between mb-2">
@@ -846,61 +863,45 @@ export default function ServiceSelector() {
                     initial={{ width: 0 }}
                     animate={{ width: `${progress}%` }}
                     transition={{ duration: 0.5 }}
-                    className="h-full bg-[#4ADE80]"
+                    className="h-full bg-gradient-to-r from-[#16A34A] to-[#4ADE80]"
                   />
                 </div>
               </div>
 
               {/* Question */}
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={currentQ.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <h2 className="text-2xl font-bold text-[#111827] mb-8">
-                    {currentQ.question}
-                  </h2>
+              <motion.div
+                key={currentQ.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                <h2 className="text-2xl font-bold text-[#111827] mb-8">
+                  {currentQ.question}
+                </h2>
 
-                  <div className="space-y-3 mb-8">
-                    {currentQ.options.map((option) => (
-                      <button
-                        key={option.value}
-                        onClick={() => handleAnswer(currentQ.id, option.value)}
-                        className={`w-full rounded-lg border-2 p-4 text-left font-medium transition-all ${
-                          answered === option.value
-                            ? "border-[#4ADE80] bg-[#4ADE80]/5 text-[#16A34A]"
-                            : "border-[#E5E7EB] text-[#374151] hover:border-[#4ADE80]"
-                        }`}
-                      >
-                        {option.label}
-                      </button>
-                    ))}
-                  </div>
-                </motion.div>
-              </AnimatePresence>
+                <div className="space-y-3 mb-8">
+                  {currentQ.options.map((option) => (
+                    <button
+                      key={option.value}
+                      onClick={() => handleAnswer(option.value)}
+                      className="w-full rounded-lg border-2 border-[#E5E7EB] bg-white p-4 text-left font-medium text-[#374151] transition-all hover:border-[#4ADE80] hover:bg-[#F9FAFB]"
+                    >
+                      {option.label}
+                    </button>
+                  ))}
+                </div>
 
-              {/* Navigation */}
-              <div className="flex items-center justify-between gap-4">
-                <button
-                  onClick={prevQuestion}
-                  disabled={currentQuestion === 0}
-                  className="group inline-flex items-center gap-2 rounded-full border border-white/70 bg-white px-8 py-4 text-[15px] font-bold text-[#111827] shadow-[0_4px_24px_rgba(15,23,42,0.18)] backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:bg-white hover:shadow-[0_8px_50px_rgba(255,255,255,0.35)]"
-                >
-                  <ArrowLeft className="h-4 w-4 inline mr-2" />
-                  Back
-                </button>
-                <button
-                  onClick={nextQuestion}
-                  disabled={!answered}
-                   className="group inline-flex items-center gap-2 rounded-full bg-[#4ADE80] px-8 py-4 text-[15px] font-bold text-[#111827] shadow-[0_4px_30px_rgba(74,222,128,0.35)] transition-all duration-300 hover:-translate-y-1 hover:bg-[#34D399] hover:shadow-[0_8px_50px_rgba(74,222,128,0.5)]"
-                >
-                  {currentQuestion === questions.length - 1 ? "See Results" : "Next"}
-                  <ArrowRight className="h-4 w-4 inline ml-2" />
-                </button>
-              </div>
+                {/* Back Button */}
+                {currentQuestion > 0 && (
+                  <button
+                    onClick={goBack}
+                    className="inline-flex items-center gap-2 text-[#6B7280] hover:text-[#111827] font-medium transition-colors"
+                  >
+                    <ArrowLeft className="h-4 w-4" />
+                    Go back
+                  </button>
+                )}
+              </motion.div>
             </div>
           </div>
         </section>
