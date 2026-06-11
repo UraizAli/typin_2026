@@ -28,14 +28,14 @@ export function Footer() {
 
       <div className="relative mx-auto grid max-w-7xl gap-12 md:grid-cols-2 lg:grid-cols-4">
         <div className="space-y-6">
-          <Link to="/" className="flex shrink-0 flex-col leading-none">
-            <span className="font-['Inspiration',cursive] text-[34px] text-white">
+          <a href="#" className="group inline-flex shrink-0 flex-col leading-none">
+            <span className="text-[36px] font-black tracking-[-0.04em] text-white transition-colors duration-300 group-hover:text-[#E5FBEF]">
               Typin
             </span>
-            <span className="-mt-1.5 text-[10px] font-semibold uppercase tracking-[0.32em] text-[#4ADE80]">
-              AI Automation
+            <span className="mt-3 inline-flex w-fit rounded-full border border-[#4ADE80]/20 bg-[#4ADE80]/10 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-[#86EFAC] shadow-[0_10px_30px_rgba(74,222,128,0.08)] backdrop-blur-sm">
+              Your Technical Co-Founder for the AI Era
             </span>
-          </Link>
+          </a>
           <p className="max-w-[320px] text-[15px] leading-7 text-[#AAB4C3]">
             We help SMEs replace manual busywork with AI-powered automation so your
             team can move faster, reduce cost, and focus on real growth.

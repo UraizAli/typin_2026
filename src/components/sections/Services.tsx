@@ -196,7 +196,7 @@ function ServiceModal({
 
             <div className="mt-8 flex flex-col gap-3 border-t border-[#E2E8F0] pt-6 sm:flex-row">
               <a
-                href="#contact"
+                href="/contact"
                 className="inline-flex min-h-[56px] items-center justify-center gap-2 whitespace-nowrap rounded-full bg-emerald px-7 py-4 text-base font-bold tracking-[-0.01em] text-white shadow-[0_10px_30px_rgba(15,23,42,0.18)] transition-transform duration-300 hover:-translate-y-1"
                 onClick={onClose}
               >

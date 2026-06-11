@@ -29,7 +29,7 @@ export function CTA() {
         </p>
         <div className="mt-10">
           <a
-            href="mailto:hello@typin.ai"
+            href="/contact"
             className="group inline-flex items-center gap-2 rounded-full bg-[#4ADE80] px-10 py-5 text-lg font-bold text-[#111827] shadow-[0_4px_30px_rgba(74,222,128,0.3)] transition-all duration-300 hover:-translate-y-1 hover:bg-[#34D399] hover:shadow-[0_8px_50px_rgba(74,222,128,0.5)]"
           >
             Book a Free Strategy Call

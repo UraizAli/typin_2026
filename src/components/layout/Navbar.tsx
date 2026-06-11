@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { motion, useScroll, AnimatePresence } from "framer-motion";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { AppLink } from "../ui/AppLink";
+import typinLogo from "../../assets/typin-logo.png";
 
 const navItems = [
   { label: "Home", path: "/" },
@@ -34,24 +35,11 @@ function BrandMark({ mobile = false }: { mobile?: boolean }) {
   const wrapperClasses = mobile
     ? "px-2 py-1"
     : "px-2 py-1 transition-all duration-300 group-hover:-translate-y-0.5";
-  const titleClasses = mobile
-    ? "text-[33px] tracking-[-0.03em]"
-    : "text-[19px] tracking-[-0.02em] lg:text-[21px]";
-  const gradientClasses = mobile
-    ? "text-[42px] tracking-[-0.07em]"
-    : "text-[25px] tracking-[-0.06em] lg:text-[28px]";
-  const trailingClasses = mobile
-    ? "text-[33px] tracking-[-0.03em]"
-    : "text-[19px] tracking-[-0.02em] lg:text-[21px]";
-  const dotClasses = mobile ? "ml-2 h-2.5 w-2.5" : "ml-2 h-2 w-2";
+  const logoClasses = mobile ? "h-11 w-auto" : "h-9 w-auto lg:h-10";
 
   return (
     <span className={`inline-flex items-center ${wrapperClasses}`}>
-      <span className={`${titleClasses} font-black text-black`}>T</span>
-      <span className={`ml-[1px] font-black italic text-[#4ADE80] ${gradientClasses}`}>
-        Y
-      </span>
-      <span className={`font-black text-black ${trailingClasses}`}>pin</span>
+      <img src={typinLogo} alt="Typin" className={logoClasses} />
     </span>
   );
 }
@@ -69,17 +57,17 @@ export function Navbar() {
           initial={{ opacity: 0, y: -40, scale: 0.95 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
-          className={`relative flex w-full max-w-[980px] items-center rounded-full border px-2.5 py-1.5 transition-all duration-500 lg:px-3 lg:py-2 ${
+          className={`relative flex w-full max-w-[1120px] items-center rounded-full border px-2.5 py-1.5 transition-all duration-500 lg:px-4 lg:py-2 ${
             scrolled
-              ? "border-gray-200/60 bg-white/80 shadow-[0_4px_40px_rgba(0,0,0,0.06),0_0_0_1px_rgba(0,0,0,0.02)] backdrop-blur-2xl"
-              : "border-white/30 bg-white/40 shadow-[0_4px_30px_rgba(0,0,0,0.03)] backdrop-blur-xl"
+              ? "border-gray-200/60 bg-white/82 shadow-[0_4px_40px_rgba(0,0,0,0.06),0_0_0_1px_rgba(0,0,0,0.02)] backdrop-blur-2xl"
+              : "border-white/35 bg-white/48 shadow-[0_4px_30px_rgba(0,0,0,0.03)] backdrop-blur-xl"
           }`}
         >
-          <Link to="#" className="group flex shrink-0 items-center pl-3">
+          <a href="#" className="group flex shrink-0 items-center pl-3">
             <BrandMark />
-          </Link>
+          </a>
 
-          <div className="hidden flex-1 items-center justify-center gap-1 px-4 lg:flex">
+          <div className="hidden flex-1 items-center justify-center gap-2 px-6 lg:flex">
             {navItems.map((item) => (
               <div
                 key={item.label}
@@ -90,7 +78,7 @@ export function Navbar() {
                 {item.dropdown ? (
                   <>
                     <button
-                      className="relative flex shrink-0 items-center gap-1 whitespace-nowrap rounded-full px-4 py-2 text-[13px] font-medium text-[#4B5563] transition-all duration-300 hover:-translate-y-1 hover:bg-[#34D399] hover:text-[#111827] hover:shadow-[0_8px_50px_rgba(74,222,128,0.5)]"
+                      className="relative flex shrink-0 items-center gap-1 whitespace-nowrap rounded-full px-4 py-2 text-[13px] font-medium text-[#1F2937] transition-all duration-300 hover:-translate-y-1 hover:bg-[#34D399] hover:text-[#111827] hover:shadow-[0_8px_50px_rgba(74,222,128,0.5)]"
                     >
                       {item.label}
                       <ChevronDown className="h-3 w-3" />
@@ -120,7 +108,7 @@ export function Navbar() {
                 ) : (
                   <Link
                     to={item.path}
-                    className="relative shrink-0 whitespace-nowrap rounded-full px-4 py-2 text-[13px] font-medium text-[#4B5563] transition-all duration-300 hover:-translate-y-1 hover:bg-[#34D399] hover:text-[#111827] hover:shadow-[0_8px_50px_rgba(74,222,128,0.5)]"
+                    className="relative shrink-0 whitespace-nowrap rounded-full px-4 py-2 text-[13px] font-medium text-[#1F2937] transition-all duration-300 hover:-translate-y-1 hover:bg-[#34D399] hover:text-[#111827] hover:shadow-[0_8px_50px_rgba(74,222,128,0.5)]"
                   >
                     {item.label}
                   </Link>

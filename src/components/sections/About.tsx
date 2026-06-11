@@ -75,7 +75,7 @@ export function About() {
 
           <AnimatedSection delay={0.3}>
             <AppLink
-              href="#contact"
+              href="/about"
               className="inline-flex items-center gap-2 text-[15px] font-semibold text-[#16A34A] transition-all duration-300 hover:gap-3"
             >
               See how we can help your business
